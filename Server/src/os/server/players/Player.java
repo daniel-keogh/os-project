@@ -3,16 +3,16 @@ package os.server.players;
 public class Player {
 	private String name;
 	private int age;
-	private int playerId;
-	private int clubId;
-	private int agentId;
+	private String playerId;
+	private String clubId;
+	private String agentId;
 	private double valuation;
 	private PlayerStatus status;
 	private Position position;
 	
 	public Player() { }
 	
-	public Player(String name, int age, int playerId, int clubId, int agentId, double valuation, PlayerStatus status, Position position) {
+	public Player(String name, int age, String playerId, String clubId, String agentId, double valuation, PlayerStatus status, Position position) {
 		this.name = name;
 		this.age = age;
 		this.playerId = playerId;
@@ -39,27 +39,27 @@ public class Player {
 		this.age = age;
 	}
 
-	public int getPlayerId() {
+	public String getPlayerId() {
 		return playerId;
 	}
 
-	public void setPlayerId(int playerId) {
+	public void setPlayerId(String playerId) {
 		this.playerId = playerId;
 	}
 
-	public int getClubId() {
+	public String getClubId() {
 		return clubId;
 	}
 
-	public void setClubId(int clubId) {
+	public void setClubId(String clubId) {
 		this.clubId = clubId;
 	}
 
-	public int getAgentId() {
+	public String getAgentId() {
 		return agentId;
 	}
 
-	public void setAgentId(int agentId) {
+	public void setAgentId(String agentId) {
 		this.agentId = agentId;
 	}
 
