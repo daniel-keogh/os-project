@@ -45,72 +45,52 @@ public class ClientApp {
 				sendMessage(outgoingMsg);
 			} while(!outgoingMsg.equalsIgnoreCase("R") && !outgoingMsg.equalsIgnoreCase("L"));
 			
-			String userType = new String(outgoingMsg);
+			char userType = outgoingMsg.toUpperCase().charAt(0);
 			Boolean success = false;
+			char action;
 			
-			if (outgoingMsg.equalsIgnoreCase("R")) {
-				do {
-					// Send user type (Agent or Club)
-					incomingMsg = (String)in.readObject();
-					System.out.println(incomingMsg);
-					outgoingMsg = console.next();
-					sendMessage(outgoingMsg);
-					
-					// Send name
-					incomingMsg = (String)in.readObject();
-					System.out.println(incomingMsg);
-					outgoingMsg = console.next();
-					outgoingMsg += console.nextLine();
-					sendMessage(outgoingMsg);
-					
-					// Send id
-					incomingMsg = (String)in.readObject();
-					System.out.println(incomingMsg);
-					outgoingMsg = console.next();
-					sendMessage(outgoingMsg);
-					
+			do {
+				// Send user type (Agent or Club)
+				incomingMsg = (String)in.readObject();
+				System.out.println(incomingMsg);
+				outgoingMsg = console.next();
+				sendMessage(outgoingMsg);
+				
+				action = outgoingMsg.toUpperCase().charAt(0);
+			
+				// Send name
+				incomingMsg = (String)in.readObject();
+				System.out.println(incomingMsg);
+				outgoingMsg = console.next();
+				outgoingMsg += console.nextLine();
+				sendMessage(outgoingMsg);
+				
+				// Send id
+				incomingMsg = (String)in.readObject();
+				System.out.println(incomingMsg);
+				outgoingMsg = console.next();
+				sendMessage(outgoingMsg);
+				
+				// Extra steps needed for registration
+				if (action == 'R') {
 					// Send email
 					incomingMsg = (String)in.readObject();
 					System.out.println(incomingMsg);
 					outgoingMsg = console.next();
 					sendMessage(outgoingMsg);
 					
-					if (userType.equals("C")) {
+					if (userType == 'C') {
 						// Send funds
 						incomingMsg = (String)in.readObject();
 						System.out.println(incomingMsg);
 						outgoingMsg = console.next();
 						sendMessage(outgoingMsg);
 					}
-					
-					success = (Boolean) in.readObject();
-					System.out.println(String.format("Registration %s\n", success ? "successful." : "unsuccessful. Try again."));
-				} while (!success);
-			} else {
-				do {
-					// Send user type (Agent or Club)
-					incomingMsg = (String)in.readObject();
-					System.out.println(incomingMsg);
-					outgoingMsg = console.next();
-					sendMessage(outgoingMsg);
-					
-					// Send name
-					incomingMsg = (String)in.readObject();
-					System.out.println(incomingMsg);
-					outgoingMsg = console.next();
-					outgoingMsg += console.nextLine();
-					sendMessage(outgoingMsg);
-					
-					// Send id
-					incomingMsg = (String)in.readObject();
-					System.out.println(incomingMsg);
-					outgoingMsg = console.next();
-					sendMessage(outgoingMsg);
-					
-					success = (Boolean)in.readObject();
-					System.out.println(String.format("Login %s\n", success ? "successful." : "unsuccessful. Try again."));
-				} while (!success);
-			}
+				}
+				
+				success = (Boolean) in.readObject();
+				System.out.println(String.format("%s %s\n", action == 'R' ? "Registration" : "Login", success ? "successful." : "unsuccessful. Try again."));
+			} while (!success);
 			
 			out.close();
 			in.close();
