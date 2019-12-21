@@ -10,13 +10,15 @@ import os.server.users.Club;
 import os.server.users.User;
 
 public class ConnectHandler implements Runnable {
+	private Shared sharedObj;
 	private Socket individualConn;
 	private int socketId;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private String message;
 
-	public ConnectHandler(Socket individualConn, int socketId) {
+	public ConnectHandler(Socket individualConn, int socketId, Shared sharedObj) {
+		this.sharedObj = sharedObj;
 		this.individualConn = individualConn;
 		this.socketId = socketId;
 	}

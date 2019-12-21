@@ -1,5 +1,6 @@
 package os.server;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,8 +11,10 @@ public class Main {
 	
 	public static void main(String[] args) {
 		int clientId = 0;
-		
+
 		try (ServerSocket listener = new ServerSocket(PORT, BACKLOG)) {	 
+			Shared sharedObj = new Shared();
+			
 			 while (true) {
 				System.out.println(String.format("Main thread listening on port %d for incoming new connections...", PORT));
 				
@@ -19,7 +22,7 @@ public class Main {
 				
 				System.out.println("New connection received and spanning a thread...");
 				
-				Runnable ch = new ConnectHandler(newconnection, clientId);
+				Runnable ch = new ConnectHandler(newconnection, clientId, sharedObj);
 				Thread t = new Thread(ch);
 				t.start();
 				
