@@ -39,8 +39,7 @@ public class ConnectHandler implements Runnable {
 
 			in = new ObjectInputStream(individualConn.getInputStream());
 
-			System.out.println(
-					String.format("Connection %d from IP address: %s", socketId, individualConn.getInetAddress()));
+			System.out.println(String.format("Connection %d from IP address: %s", socketId, individualConn.getInetAddress()));
 
 			// Login
 			do {
@@ -58,10 +57,10 @@ public class ConnectHandler implements Runnable {
 				sendMessage("$ Enter ID:");
 				String id = (String) in.readObject();
 
-				sendMessage("$ Enter email address:");
-				String email = (String) in.readObject();
-
 				if (message.equalsIgnoreCase("R")) {
+					sendMessage("$ Enter email address:");
+					String email = (String) in.readObject();
+					
 					User newUser;
 
 					if (userType.equalsIgnoreCase("A")) {
@@ -75,9 +74,12 @@ public class ConnectHandler implements Runnable {
 					sendMessage(Boolean.TRUE);
 					break;
 				} else {
-					// TODO Login
-					sendMessage(Boolean.TRUE);
-					break;
+					Boolean valid = sharedObj.validateLogin(name, id);
+					sendMessage(valid);
+					
+					if (valid) {
+						break;
+					}
 				}
 			} while (true);
 

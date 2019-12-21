@@ -32,7 +32,7 @@ public class Shared {
 		
 		while(in.hasNext()) {
 			Player p = new Player(
-				in.next().replaceAll("_", " "), 
+				in.next(), 
 				in.nextInt(), 
 				in.next(), 
 				in.next(), 
@@ -56,13 +56,11 @@ public class Shared {
 		while(in.hasNext()) {
 			id = in.next();
 			
-			System.out.println(id);
-			
 			if (id.charAt(0) == 'A') {
-				u = new Agent(in.next().replaceAll("_", " "), id, in.next());
+				u = new Agent(in.next(), id, in.next());
 				agents.add((Agent) u);
 			} else if (id.charAt(0) == 'C') {
-				u = new Club(in.next().replaceAll("_", " "), id, in.next(), in.nextDouble());
+				u = new Club(in.next(), id, in.next(), in.nextDouble());
 				clubs.add((Club) u);
 			}
 		}
@@ -70,18 +68,23 @@ public class Shared {
 		in.close();
 	}
 
-	public synchronized boolean validateLogin(String name, String id) {			
-		if (id.charAt(0) == 'A') {
+	public synchronized boolean validateLogin(String name, String id) {
+		char userType = Character.toUpperCase(id.charAt(0));
+		name = name.replaceAll(" ", "_");
+		
+		if (userType == 'A') {
 			Agent a = new Agent();
 			a.setId(id).setName(name);
 			
 			return agents.contains(a);
-		} else {
+		} else if (userType == 'C') {
 			Club c = new Club();
 			c.setId(id).setName(name);
 			
 			return clubs.contains(c);
 		}
+		
+		return false;
 	}
 	
 	public void register(User user) throws FileNotFoundException {

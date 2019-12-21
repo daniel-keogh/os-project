@@ -37,19 +37,79 @@ public class ClientApp {
 
 			System.out.println("Client Side ready to communicate");
 			
-			// Login
+			// Register / Login
 			do {
 				incomingMsg = (String)in.readObject();
 				System.out.println(incomingMsg);
-				
 				outgoingMsg = console.next();
 				sendMessage(outgoingMsg);
 			} while(!outgoingMsg.equalsIgnoreCase("R") && !outgoingMsg.equalsIgnoreCase("L"));
-
+			
+			String userType = new String(outgoingMsg);
+			Boolean success = false;
+			
 			if (outgoingMsg.equalsIgnoreCase("R")) {
-				register();
+				do {
+					// Send user type (Agent or Club)
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					sendMessage(outgoingMsg);
+					
+					// Send name
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					outgoingMsg += console.nextLine();
+					sendMessage(outgoingMsg);
+					
+					// Send id
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					sendMessage(outgoingMsg);
+					
+					// Send email
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					sendMessage(outgoingMsg);
+					
+					if (userType.equals("C")) {
+						// Send funds
+						incomingMsg = (String)in.readObject();
+						System.out.println(incomingMsg);
+						outgoingMsg = console.next();
+						sendMessage(outgoingMsg);
+					}
+					
+					success = (Boolean) in.readObject();
+					System.out.println(String.format("Registration %s\n", success ? "successful." : "unsuccessful. Try again."));
+				} while (!success);
 			} else {
-				login();
+				do {
+					// Send user type (Agent or Club)
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					sendMessage(outgoingMsg);
+					
+					// Send name
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					outgoingMsg += console.nextLine();
+					sendMessage(outgoingMsg);
+					
+					// Send id
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					sendMessage(outgoingMsg);
+					
+					success = (Boolean)in.readObject();
+					System.out.println(String.format("Login %s\n", success ? "successful." : "unsuccessful. Try again."));
+				} while (!success);
 			}
 			
 			out.close();
@@ -61,59 +121,5 @@ public class ClientApp {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private void register() throws ClassNotFoundException, IOException {
-		boolean success = false;
-		
-		do {
-			// Send user type (Agent or Club)
-			incomingMsg = (String)in.readObject();
-			System.out.println(incomingMsg);
-			outgoingMsg = console.next();
-			sendMessage(outgoingMsg);
-			
-			// Send user ID
-			incomingMsg = (String)in.readObject();
-			System.out.println(incomingMsg);
-			outgoingMsg = console.next();
-			sendMessage(outgoingMsg);
-			
-			// Send password
-			incomingMsg = (String)in.readObject();
-			System.out.println(incomingMsg);
-			outgoingMsg = console.next();
-			sendMessage(outgoingMsg);
-			
-			// Send email
-			incomingMsg = (String)in.readObject();
-			System.out.println(incomingMsg);
-			outgoingMsg = console.next();
-			sendMessage(outgoingMsg);
-			
-			success = (Boolean) in.readObject();
-			System.out.println(String.format("Registration %s\n", success ? "successful." : "unsuccessful. Try again."));
-		} while (!success);
-	}
-	
-	private void login() throws ClassNotFoundException, IOException {
-		boolean success = false;
-		
-		do {
-			// Send user ID
-			incomingMsg = (String)in.readObject();
-			System.out.println(incomingMsg);
-			outgoingMsg = console.next();
-			sendMessage(outgoingMsg);
-			
-			// Send password
-			incomingMsg = (String)in.readObject();
-			System.out.println(incomingMsg);
-			outgoingMsg = console.next();
-			sendMessage(outgoingMsg);
-			
-			success = (Boolean) in.readObject();
-			System.out.println(String.format("Login %s\n", success ? "successful." : "unsuccessful. Try again."));
-		} while (!success);
 	}
 }
