@@ -21,8 +21,8 @@ public class ClientApp {
 		try {
 			out.writeObject(msg);
 			out.flush();
-		} catch (IOException ioException) {
-			ioException.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -45,9 +45,9 @@ public class ClientApp {
 				sendMessage(outgoingMsg);
 			} while(!outgoingMsg.equalsIgnoreCase("R") && !outgoingMsg.equalsIgnoreCase("L"));
 			
-			char userType = outgoingMsg.toUpperCase().charAt(0);
+			char action = outgoingMsg.toUpperCase().charAt(0);
 			Boolean success = false;
-			char action;
+			char userType;
 			
 			do {
 				// Send user type (Agent or Club)
@@ -56,7 +56,7 @@ public class ClientApp {
 				outgoingMsg = console.next();
 				sendMessage(outgoingMsg);
 				
-				action = outgoingMsg.toUpperCase().charAt(0);
+				userType = outgoingMsg.toUpperCase().charAt(0);
 			
 				// Send name
 				incomingMsg = (String)in.readObject();
@@ -91,6 +91,12 @@ public class ClientApp {
 				success = (Boolean) in.readObject();
 				System.out.println(String.format("%s %s\n", action == 'R' ? "Registration" : "Login", success ? "successful." : "unsuccessful. Try again."));
 			} while (!success);
+			
+			if (userType == 'A') {
+				Menus.showAgentMenu();
+			} else {
+				Menus.showClubMenu();
+			}
 			
 			out.close();
 			in.close();
