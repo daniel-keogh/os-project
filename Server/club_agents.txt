@@ -1,0 +1,18 @@
+A11111 Jorge_Mendes jmendes@gmail.com
+A22222 Volker_Struth vstruth@gmail.com
+A33333 Mino_Raiola mraiola@gmail.com
+A44444 Jonathan_Barnett jbarnett@gmail.com
+A55555 Jose_Otin jotin@gmail.com
+A66666 Fernando_Felicevich ffelicevich@gmail.com
+A77777 Giuliano_Bertolucci gbertolucci@gmail.com
+A88888 Thomas_Kroth tkroth@gmail.com
+A99999 Mondial_Promotions mondaial@gmail.com
+A12345 Pini_Zahav  pzahavi@gmail.com
+C11111 Liverpool contact@lfc.com 0.0
+C22222 Manchester_City contact@mcfc.com 0.0
+C33333 Leicester_City contact@lcfc.com 0.0
+C44444 Chelsea contact@cfc.com 0.0
+C55555 Tottenham_Hotspur contact@thfc.com 0.0
+C66666 Arsenal  contact@afc.com 0.0
+C77777 Manchester_United contact@mufc.com 0.0
+C88888 Sheffield_United contact@sufc.com 0.0
