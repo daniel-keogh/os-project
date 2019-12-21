@@ -10,7 +10,8 @@ public class ClientApp {
 	private Socket connection;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	private String message;
+	private String incomingMsg;
+	private String outgoingMsg;
 
 	private static final String IP_ADDRESS = "127.0.0.1";
 	private static final int PORT = 10000;
@@ -20,7 +21,6 @@ public class ClientApp {
 		try {
 			out.writeObject(msg);
 			out.flush();
-			// System.out.println("client>" + msg);
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}
@@ -37,8 +37,52 @@ public class ClientApp {
 
 			System.out.println("Client Side ready to communicate");
 			
+			// Login
+			do {
+				incomingMsg = (String)in.readObject();
+				System.out.println(incomingMsg);
+				
+				outgoingMsg = console.next();
+				sendMessage(outgoingMsg);
+			} while(!outgoingMsg.equalsIgnoreCase("R") && !outgoingMsg.equalsIgnoreCase("L"));
+			
+			boolean success = false;
+
+			if (outgoingMsg.equalsIgnoreCase("R")) {
+				do {
+					// Send user type (Agent or Club)
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					sendMessage(outgoingMsg);
+					
+					// Send user ID
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					sendMessage(outgoingMsg);
+					
+					// Send password
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					sendMessage(outgoingMsg);
+					
+					// Send email
+					incomingMsg = (String)in.readObject();
+					System.out.println(incomingMsg);
+					outgoingMsg = console.next();
+					sendMessage(outgoingMsg);
+					
+					success = (Boolean) in.readObject();
+					System.out.println(String.format("Registration %s\n", success ? "successful." : "unsuccessful. Try again."));
+				} while (!success);
+			}
+			
 		} catch (IOException e) {
 			System.out.println("Failed to connect to the server.");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
