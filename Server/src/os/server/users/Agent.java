@@ -6,4 +6,9 @@ public class Agent extends User {
 	public Agent(String name, String id, String email) {
 		super(name, id, email);
 	}
+
+	@Override
+	public String toString() {
+		return "Agent [name=" + getName() + ", id=" + getId() + ", email=" + getEmail() + "]";
+	}
 }
