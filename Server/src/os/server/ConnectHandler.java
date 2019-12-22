@@ -81,7 +81,7 @@ public class ConnectHandler implements Runnable {
 						break;
 					}
 				} else {
-					Boolean valid = sharedObj.validateLogin(currentUser.getName(), currentUser.getEmail());
+					Boolean valid = sharedObj.validateLogin(currentUser.getName(), currentUser.getId());
 					sendMessage(valid);
 					
 					if (valid) {

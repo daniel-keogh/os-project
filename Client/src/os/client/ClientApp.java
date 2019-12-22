@@ -73,8 +73,7 @@ public class ClientApp {
 				incomingMsg = (String)in.readObject();
 				System.out.println(incomingMsg);
 				outgoingMsg = console.next();
-				sendMessage(outgoingMsg);
-				
+				sendMessage(outgoingMsg);	
 				
 				// Extra steps needed for registration
 				if (action == 'R') {
@@ -106,7 +105,7 @@ public class ClientApp {
 				success = (Boolean) in.readObject();
 				System.out.println(String.format("%s %s\n", 
 						action == 'R' ? "Registration" : "Login", 
-						success ? "successful." : "unsuccessful. Try again. It's possible the ID entered already exists."));
+						success ? "successful." : "unsuccessful. Try again.\nIt's possible the ID entered already exists, or was incorrect."));
 				
 			} while (!success);
 			
