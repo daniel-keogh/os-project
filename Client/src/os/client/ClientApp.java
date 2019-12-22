@@ -75,6 +75,7 @@ public class ClientApp {
 				outgoingMsg = console.next();
 				sendMessage(outgoingMsg);
 				
+				
 				// Extra steps needed for registration
 				if (action == 'R') {
 					// Send email
@@ -103,7 +104,10 @@ public class ClientApp {
 				}
 				
 				success = (Boolean) in.readObject();
-				System.out.println(String.format("%s %s\n", action == 'R' ? "Registration" : "Login", success ? "successful." : "unsuccessful. Try again."));
+				System.out.println(String.format("%s %s\n", 
+						action == 'R' ? "Registration" : "Login", 
+						success ? "successful." : "unsuccessful. Try again. It's possible the ID entered already exists."));
+				
 			} while (!success);
 			
 			Menu menu;

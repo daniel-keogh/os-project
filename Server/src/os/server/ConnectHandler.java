@@ -72,12 +72,14 @@ public class ConnectHandler implements Runnable {
 						sendMessage("$ Enter funds: ");
 						((Club) currentUser).setFunds(Double.parseDouble((String)in.readObject()));
 					}
-
-					// Register the new user
-					sharedObj.register(currentUser);
 					
-					sendMessage(Boolean.TRUE);
-					break;
+					// Register the new user & send result
+					boolean successfulReg = sharedObj.register(currentUser);
+					sendMessage(successfulReg);
+					
+					if (successfulReg) {
+						break;
+					}
 				} else {
 					Boolean valid = sharedObj.validateLogin(currentUser.getName(), currentUser.getEmail());
 					sendMessage(valid);

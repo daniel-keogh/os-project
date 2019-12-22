@@ -17,44 +17,36 @@ public class Shared {
 	private List<Player> players = new ArrayList<>();
 	private List<Agent> agents = new ArrayList<>();
 	private List<Club> clubs = new ArrayList<>();
-	
+
 	private static final String CLUB_AGENTS_FILE = "club_agents.txt";
 	private static final String PLAYERS_FILE = "players.txt";
-	
+
 	public Shared() throws FileNotFoundException {
 		loadPlayersList();
 		loadClubAgentsList();
 	}
-	
+
 	private void loadPlayersList() throws FileNotFoundException {
 		Scanner in = new Scanner(new FileReader(PLAYERS_FILE));
-		
-		while(in.hasNext()) {
-			Player p = new Player(
-				in.next(), 
-				in.nextInt(), 
-				in.next(), 
-				in.next(), 
-				in.next(), 
-				in.nextDouble(), 
-				PlayerStatus.valueOf(in.next()),
-				Position.valueOf(in.next())
-			);
-			
+
+		while (in.hasNext()) {
+			Player p = new Player(in.next(), in.nextInt(), in.next(), in.next(), in.next(), in.nextDouble(),
+					PlayerStatus.valueOf(in.next()), Position.valueOf(in.next()));
+
 			players.add(p);
 		}
-		
+
 		in.close();
 	}
-	
+
 	private void loadClubAgentsList() throws FileNotFoundException {
 		Scanner in = new Scanner(new FileReader(CLUB_AGENTS_FILE));
 		String id;
 		User u;
-		
-		while(in.hasNext()) {
+
+		while (in.hasNext()) {
 			id = in.next();
-			
+
 			if (id.charAt(0) == 'A') {
 				u = new Agent(in.next(), id, in.next());
 				agents.add((Agent) u);
@@ -63,41 +55,49 @@ public class Shared {
 				clubs.add((Club) u);
 			}
 		}
-		
+
 		in.close();
 	}
 
 	public synchronized boolean validateLogin(String name, String id) {
 		char userType = Character.toUpperCase(id.charAt(0));
 		name = name.replaceAll(" ", "_");
-		
+
 		if (userType == 'A') {
 			Agent a = new Agent();
 			a.setId(id).setName(name);
-			
+
 			return agents.contains(a);
 		} else if (userType == 'C') {
 			Club c = new Club();
 			c.setId(id).setName(name);
-			
+
 			return clubs.contains(c);
 		}
-		
+
 		return false;
 	}
-	
-	public synchronized void register(User user) {
+
+	public synchronized boolean register(User user) {		
 		if (user instanceof Agent) {
-			agents.add((Agent) user);
+			if (!agents.contains(user)) {
+				agents.add((Agent) user);
+				return true;
+			}
 		} else if (user instanceof Club) {
-			clubs.add((Club) user);
+			if (!clubs.contains(user)) {
+				clubs.add((Club) user);
+				return true;
+			}
 		}
+
+		return false;
 	}
-	
+
 	public synchronized void addPlayer(Player player) {
 		players.add(player);
 	}
-	
+
 	public synchronized void addAgent(Agent agent) {
 		agents.add(agent);
 	}
