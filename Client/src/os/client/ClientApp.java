@@ -6,6 +6,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import os.client.menus.AgentMenu;
+import os.client.menus.ClubMenu;
+import os.client.menus.Menu;
+
 public class ClientApp {
 	private Socket connection;
 	private ObjectOutputStream out;
@@ -92,11 +96,14 @@ public class ClientApp {
 				System.out.println(String.format("%s %s\n", action == 'R' ? "Registration" : "Login", success ? "successful." : "unsuccessful. Try again."));
 			} while (!success);
 			
+			Menu menu;
 			if (userType == 'A') {
-				Menus.showAgentMenu();
+				menu = new AgentMenu();
 			} else {
-				Menus.showClubMenu();
+				menu = new ClubMenu();
 			}
+			
+			menu.showMenu();
 			
 			out.close();
 			in.close();

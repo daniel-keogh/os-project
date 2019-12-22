@@ -95,11 +95,11 @@ public class Shared {
 //		} 
 	}
 	
-	public synchronized void addPlayer() {
-		
+	public synchronized void addPlayer(Player player) {
+		players.add(player);
 	}
 	
-	public synchronized void addAgent() {
-		
+	public synchronized void addAgent(Agent agent) {
+		agents.add(agent);
 	}
 }
