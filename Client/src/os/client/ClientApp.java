@@ -80,7 +80,17 @@ public class ClientApp {
 					// Send email
 					incomingMsg = (String)in.readObject();
 					System.out.println(incomingMsg);
-					outgoingMsg = console.next();
+					
+					do {
+						outgoingMsg = console.next();
+						
+						if (!ValidateEmail.isValid(outgoingMsg)) {
+							System.out.println("[Error] Invalid Email. Try again.");
+						} else {
+							break;
+						}
+					} while (true);
+					
 					sendMessage(outgoingMsg);
 					
 					if (userType == 'C') {
