@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ThreadLocalRandom;
 
 import os.server.players.Player;
 import os.server.players.PlayerStatus;
@@ -13,7 +16,8 @@ import os.server.users.Agent;
 import os.server.users.Club;
 import os.server.users.User;
 
-public class Shared {
+public class Shared extends TimerTask {
+	private Timer saveListsTimer = new Timer();
 	private List<Player> players = new ArrayList<>();
 	private List<Agent> agents = new ArrayList<>();
 	private List<Club> clubs = new ArrayList<>();
@@ -24,6 +28,15 @@ public class Shared {
 	public Shared() throws FileNotFoundException {
 		loadPlayersList();
 		loadClubAgentsList();
+		
+		// Schedule to save the Lists to File every 5 mins
+		saveListsTimer.schedule(this, 300000, 300000);
+	}
+	
+	@Override
+	public synchronized void run() {
+		// TODO save Lists
+		System.out.println("Inside shared run method");
 	}
 
 	private void loadPlayersList() throws FileNotFoundException {
@@ -95,10 +108,16 @@ public class Shared {
 	}
 
 	public synchronized void addPlayer(Player player) {
+		Integer rand = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
+		
+		player.setPlayerId("P" + rand);
 		players.add(player);
 	}
 
 	public synchronized void addAgent(Agent agent) {
+		if (agent.getId().charAt(0) != 'A') {
+			agent.setId("A" + agent.getId());
+		}
 		agents.add(agent);
 	}
 }
