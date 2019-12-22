@@ -69,8 +69,9 @@ public class ConnectHandler implements Runnable {
 						newUser = new Club(name, id, email, 0);
 					}
 
-					// TODO Register the new user
-
+					// Register the new user
+					sharedObj.register(newUser);
+					
 					sendMessage(Boolean.TRUE);
 					break;
 				} else {

@@ -2,7 +2,6 @@ package os.server;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -87,12 +86,12 @@ public class Shared {
 		return false;
 	}
 	
-	public void register(User user) throws FileNotFoundException {
-//		try (PrintWriter pw = new PrintWriter(LOGIN_FILE)) {
-//			pw.println(user.getName().replaceAll(" ", "_") +" "+ user.getId());
-//		} catch (FileNotFoundException e) {
-//			throw e;
-//		} 
+	public synchronized void register(User user) {
+		if (user instanceof Agent) {
+			agents.add((Agent) user);
+		} else if (user instanceof Club) {
+			clubs.add((Club) user);
+		}
 	}
 	
 	public synchronized void addPlayer(Player player) {
