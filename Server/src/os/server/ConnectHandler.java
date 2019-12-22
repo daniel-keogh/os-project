@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.Semaphore;
 
 import os.server.users.Agent;
 import os.server.users.Club;
@@ -16,6 +17,7 @@ public class ConnectHandler implements Runnable {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private String message;
+	private User currentUser;
 
 	public ConnectHandler(Socket individualConn, int socketId, Shared sharedObj) {
 		this.sharedObj = sharedObj;
@@ -49,33 +51,35 @@ public class ConnectHandler implements Runnable {
 
 			do {
 				sendMessage("$ Are you an agent (A) or a club (C)?");
-				String userType = (String) in.readObject();
+				if (((String) in.readObject()).equalsIgnoreCase("A")) {
+					currentUser = new Agent();
+				} else {
+					currentUser = new Club();
+				}
 
 				sendMessage("$ Enter name:");
-				String name = (String) in.readObject();
+				currentUser.setName((String) in.readObject());
 
 				sendMessage("$ Enter ID:");
-				String id = (String) in.readObject();
+				currentUser.setId((String) in.readObject());
 
 				if (message.equalsIgnoreCase("R")) {
 					sendMessage("$ Enter email address:");
-					String email = (String) in.readObject();
+					currentUser.setEmail((String) in.readObject());
 					
-					User newUser;
-
-					if (userType.equalsIgnoreCase("A")) {
-						newUser = new Agent(name, id, email);
-					} else {
-						newUser = new Club(name, id, email, 0);
+					if (currentUser instanceof Club) {
+						// Get funds
+						sendMessage("$ Enter funds: ");
+						((Club) currentUser).setFunds(Double.parseDouble((String)in.readObject()));
 					}
 
 					// Register the new user
-					sharedObj.register(newUser);
+					sharedObj.register(currentUser);
 					
 					sendMessage(Boolean.TRUE);
 					break;
 				} else {
-					Boolean valid = sharedObj.validateLogin(name, id);
+					Boolean valid = sharedObj.validateLogin(currentUser.getName(), currentUser.getEmail());
 					sendMessage(valid);
 					
 					if (valid) {
