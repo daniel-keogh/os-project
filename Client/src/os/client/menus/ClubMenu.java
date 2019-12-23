@@ -1,10 +1,15 @@
 package os.client.menus;
 
+import static os.client.ClientApp.receiveMessage;
 import static os.client.ClientApp.sendMessage;
 
+import java.util.List;
 import java.util.Scanner;
 
-public class ClubMenu implements Menu {
+public class ClubMenu extends Menu {
+	
+	private String incomingMsg;
+	private String outgoingMsg;
 	
 	private static final Scanner console = new Scanner(System.in);
 	
@@ -47,15 +52,15 @@ public class ClubMenu implements Menu {
 		switch (Character.toUpperCase(option)) {
 			case 'A':
 				sendMessage("A");
-				searchByPosition();
+				searchAllByPosition();
 				break;
 			case 'B':
 				sendMessage("B");
-				searchForSale();
+				searchAllForSale();
 				break;
 			case 'C':
 				sendMessage("C");
-				SuspendResumeSale();
+				suspendResumeSale();
 				break;
 			case 'D':
 				sendMessage("D");
@@ -71,28 +76,47 @@ public class ClubMenu implements Menu {
 		return true;
 	}
 
-	private void searchByPosition() {
-		// TODO Auto-generated method stub
+	private void searchAllByPosition() {
+		// Send player position
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
 		
+		// Show list of players
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
 	}
 	
-	private void searchForSale() {
-		// TODO Auto-generated method stub
-		
+	private void searchAllForSale() {
+		// Show list of players
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
 	}
 
-	private void SuspendResumeSale() {
-		// TODO Auto-generated method stub
+	private void suspendResumeSale() {
+		// Send player Id
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
 		
+		// Send new player status
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
 	}
 
 	private void purchasePlayer() {
-		// TODO Auto-generated method stub
+		// Send player Id
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
 		
-	}
-
-	@Override
-	public void quit() {
-
+		// Display result
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
 	}
 }

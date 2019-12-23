@@ -17,6 +17,7 @@ public class ClientApp {
 
 	private static ObjectOutputStream out;
 	private static ObjectInputStream in;
+	
 	private static final String IP_ADDRESS = "127.0.0.1";
 	private static final int PORT = 10000;
 	private static final Scanner console = new Scanner(System.in);

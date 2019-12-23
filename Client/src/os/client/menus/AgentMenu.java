@@ -4,7 +4,7 @@ import java.util.Scanner;
 import static os.client.ClientApp.receiveMessage;
 import static os.client.ClientApp.sendMessage;
 
-public class AgentMenu implements Menu {
+public class AgentMenu extends Menu {
 
 	private String incomingMsg;
 	private String outgoingMsg;
@@ -139,10 +139,5 @@ public class AgentMenu implements Menu {
 		sendMessage(outgoingMsg);
 		
 		listOptions();
-	}
-
-	@Override
-	public void quit() {
-
 	}
 }

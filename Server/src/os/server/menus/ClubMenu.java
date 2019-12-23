@@ -49,15 +49,13 @@ public class ClubMenu {
 		
 		temp = ch.getSharedObject().searchAllByPosition((Club) ch.getCurrentUser(), pos);
 		
-		ch.sendMessage(temp);
+		ch.sendMessage(temp.toString());
 	}
 
-	private void searchAllForSale() {	
-		ch.sendMessage("Search all for sale...\n");
-		
+	private void searchAllForSale() {			
 		List<Player> temp = ch.getSharedObject().searchAllForSale((Club) ch.getCurrentUser());
 		
-		ch.sendMessage(temp);
+		ch.sendMessage("Search all for sale...\n"+ temp.toString());
 	}
 
 	private void suspendResumeSale() {
@@ -78,6 +76,7 @@ public class ClubMenu {
 		
 		try {
 			ch.getSharedObject().purchasePlayer((Club) ch.getCurrentUser(), p);
+			ch.sendMessage(p.getName() +" has been purchased by "+ ch.getCurrentUser().getName());
 		} catch (InsufficientFundsException e) {
 			ch.sendMessage(e.getMessage());
 		}

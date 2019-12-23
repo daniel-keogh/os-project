@@ -1,6 +1,5 @@
 package os.client.menus;
 
-public interface Menu {
-	void showMenu();
-	void quit();
+public abstract class Menu {
+	public abstract void showMenu();
 }
