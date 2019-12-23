@@ -89,7 +89,6 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Player [name=" + name + ", age=" + age + ", playerId=" + playerId + ", clubId=" + clubId + ", agentId="
-				+ agentId + ", valuation=" + valuation + ", status=" + status + ", position=" + position + "]";
+		return String.format("%s %s %s %s %s %s %s %s", playerId, clubId, agentId, name, age, valuation, position, status);
 	}
 }

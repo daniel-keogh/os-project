@@ -42,7 +42,7 @@ public abstract class User {
 	
 	@Override
 	public String toString() {
-		return String.format("%s %s %s", getId(), getName(), getEmail());
+		return String.format("%s %s %s", id, name, email);
 	}
 
 	@Override
