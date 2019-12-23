@@ -112,21 +112,25 @@ public class ConnectHandler implements Runnable {
 	}
 	
 	private void showAgentMenu() throws ClassNotFoundException, IOException {
-		String option = (String)in.readObject();
+		String option;
 		
-		switch (option) {
-			case "A":
-				addPlayer();
-				break;
-			case "B":
-				//updatePlayerValuation();
-				break;
-			case "C":
-				//updatePlayerStatus();
-				break;
-			default:
-				break;
-		}
+		do {
+			option = (String)in.readObject();
+			
+			switch (option) {
+				case "A":
+					addPlayer();
+					break;
+				case "B":
+					updatePlayerValuation();
+					break;
+				case "C":
+					updatePlayerStatus();
+					break;
+				default:
+					break;
+			}
+		} while (option.charAt(0) != 'Q');
 	}
 
 	private void addPlayer() throws ClassNotFoundException, IOException {
@@ -152,5 +156,29 @@ public class ConnectHandler implements Runnable {
 		p.setPosition(Position.valueOf((String)in.readObject()));
 		
 		sharedObj.addPlayer(p);
+	}
+	
+	private void updatePlayerValuation() throws ClassNotFoundException, IOException {
+		Player p = new Player();
+		
+		sendMessage("Update Player Valuation...\n$ Enter player ID: ");
+		p.setPlayerId((String)in.readObject());
+		
+		sendMessage("$ Enter new player valuation: ");
+		p.setValuation(Double.parseDouble((String)in.readObject()));
+		
+		sharedObj.updatePlayerValuation(p);
+	}
+	
+	private void updatePlayerStatus() throws ClassNotFoundException, IOException {
+		Player p = new Player();
+		
+		sendMessage("Update Player Status...\n$ Enter player ID: ");
+		p.setPlayerId((String)in.readObject());
+		
+		sendMessage("$ Enter new player status (FOR_SALE, SOLD, SALE_SUSPENDED): ");
+		p.setStatus(PlayerStatus.valueOf((String)in.readObject()));
+		
+		sharedObj.updatePlayerStatus(p);
 	}
 }

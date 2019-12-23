@@ -120,11 +120,11 @@ public class Shared extends TimerTask {
 		return false;
 	}
 
-	public synchronized void addPlayer(Player player) {
+	public synchronized void addPlayer(Player p) {
 		Integer rand = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
 		
-		player.setPlayerId("P" + rand);
-		players.add(player);
+		p.setPlayerId("P" + rand);
+		players.add(p);
 	}
 
 	public synchronized void addAgent(Agent agent) {
@@ -132,5 +132,17 @@ public class Shared extends TimerTask {
 			agent.setId("A" + agent.getId());
 		}
 		agents.add(agent);
+	}
+	
+	public synchronized void updatePlayerValuation(Player p) {
+		if (players.contains(p)) {
+			players.get(players.indexOf(p)).setValuation(p.getValuation());
+		}
+	}
+
+	public synchronized void updatePlayerStatus(Player p) {
+		if (players.contains(p)) {
+			players.get(players.indexOf(p)).setStatus(p.getStatus());
+		}
 	}
 }

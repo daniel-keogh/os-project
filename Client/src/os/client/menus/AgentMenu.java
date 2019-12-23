@@ -47,20 +47,23 @@ public class AgentMenu implements Menu {
 
 	private boolean handleOption(char option) {
 		switch (Character.toUpperCase(option)) {
-		case 'A':
-			sendMessage("A");
-			addPlayer();
-			break;
-		case 'B':
-			updatePlayerValuation();
-			break;
-		case 'C':
-			updatePlayerStatus();
-			break;
-		case 'Q':
-			quit();
-		default:
-			break;
+			case 'A':
+				sendMessage("A");
+				addPlayer();
+				break;
+			case 'B':
+				sendMessage("B");
+				updatePlayerValuation();
+				break;
+			case 'C':
+				sendMessage("C");
+				updatePlayerStatus();
+				break;
+			case 'Q':
+				sendMessage("Q");
+				quit();
+			default:
+				break;
 		}
 
 		return true;
@@ -107,13 +110,35 @@ public class AgentMenu implements Menu {
 	}
 
 	private void updatePlayerValuation() {
-		// TODO Auto-generated method stub
-
+		// Send player id
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
+		
+		// Send new player valuation
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
+		
+		listOptions();
 	}
 
 	private void updatePlayerStatus() {
-		// TODO Auto-generated method stub
+		// Send player id
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
 
+		// Send new status
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
+		
+		listOptions();
 	}
 
 	@Override
