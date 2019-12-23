@@ -2,6 +2,7 @@ package os.server;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -29,14 +30,33 @@ public class Shared extends TimerTask {
 		loadPlayersList();
 		loadClubAgentsList();
 		
-		// Schedule to save the Lists to File every 5 mins
-		saveListsTimer.schedule(this, 300000, 300000);
+		// Schedule to save the Lists to File every 2 mins
+		saveListsTimer.schedule(this, 120000, 120000);
 	}
 	
 	@Override
 	public synchronized void run() {
-		// TODO save Lists
 		System.out.println("Inside shared run method");
+		
+		try (PrintWriter outFile = new PrintWriter(PLAYERS_FILE)) {
+			players.forEach(player -> {
+				outFile.println(player);
+			});
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try (PrintWriter outFile = new PrintWriter(CLUB_AGENTS_FILE)) {
+			agents.forEach(agent -> {
+				outFile.println(agent);
+			});
+			
+			clubs.forEach(club -> {
+				outFile.println(club);
+			});
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void loadPlayersList() throws FileNotFoundException {

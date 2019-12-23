@@ -21,6 +21,6 @@ public class Club extends User {
 
 	@Override
 	public String toString() {
-		return "Club [funds=" + funds + ", name=" + getName() + ", id=" + getId() + "]";
+		return super.toString() + " " + funds;
 	}
 }

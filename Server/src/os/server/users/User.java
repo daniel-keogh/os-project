@@ -39,6 +39,11 @@ public abstract class User {
 		
 		return this;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("%s %s %s", getId(), getName(), getEmail());
+	}
 
 	@Override
 	public int hashCode() {
