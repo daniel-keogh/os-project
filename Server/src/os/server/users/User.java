@@ -16,6 +16,7 @@ public abstract class User {
 	public String getName() {
 		return name;
 	}
+	
 	public User setName(String name) {
 		this.name = name;
 		
@@ -25,6 +26,7 @@ public abstract class User {
 	public String getId() {
 		return id;
 	}
+	
 	public User setId(String id) {
 		this.id = id;
 		
@@ -34,6 +36,7 @@ public abstract class User {
 	public String getEmail() {
 		return email;
 	}
+	
 	public User setEmail(String email) {
 		this.email = email;
 		

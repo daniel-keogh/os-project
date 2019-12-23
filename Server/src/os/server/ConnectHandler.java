@@ -5,9 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import os.server.players.Player;
-import os.server.players.PlayerStatus;
-import os.server.players.Position;
+import os.server.menus.AgentMenu;
+import os.server.menus.ClubMenu;
 import os.server.users.Agent;
 import os.server.users.Club;
 import os.server.users.User;
@@ -26,6 +25,14 @@ public class ConnectHandler implements Runnable {
 		this.individualConn = individualConn;
 		this.socketId = socketId;
 	}
+	
+	public Shared getSharedObject() {
+		return sharedObj;
+	}
+	
+	public User getCurrentUser() {
+		return currentUser;
+	}
 
 	public void sendMessage(Object msg) {
 		try {
@@ -34,6 +41,16 @@ public class ConnectHandler implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Object receiveMessage() {
+		try {
+			return in.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	public void run() {
@@ -48,31 +65,31 @@ public class ConnectHandler implements Runnable {
 			// Login
 			do {
 				sendMessage("$ Do you want to Register (R) or Login (L):");
-				message = (String) in.readObject();
+				message = (String) receiveMessage();
 			} while (!message.equalsIgnoreCase("L") && !message.equalsIgnoreCase("R"));
 
 			do {
 				sendMessage("$ Are you an agent (A) or a club (C)?");
-				if (((String) in.readObject()).equalsIgnoreCase("A")) {
+				if (((String) receiveMessage()).equalsIgnoreCase("A")) {
 					currentUser = new Agent();
 				} else {
 					currentUser = new Club();
 				}
 
 				sendMessage("$ Enter name:");
-				currentUser.setName((String) in.readObject());
+				currentUser.setName((String) receiveMessage());
 
 				sendMessage("$ Enter ID:");
-				currentUser.setId((String) in.readObject());
+				currentUser.setId((String) receiveMessage());
 
 				if (message.equalsIgnoreCase("R")) {
 					sendMessage("$ Enter email address:");
-					currentUser.setEmail((String) in.readObject());
+					currentUser.setEmail((String) receiveMessage());
 					
 					if (currentUser instanceof Club) {
 						// Get funds
 						sendMessage("$ Enter funds: ");
-						((Club) currentUser).setFunds(Double.parseDouble((String)in.readObject()));
+						((Club) currentUser).setFunds(Double.parseDouble((String)receiveMessage()));
 					}
 					
 					// Register the new user & send result
@@ -83,21 +100,22 @@ public class ConnectHandler implements Runnable {
 						break;
 					}
 				} else {
-					boolean valid = sharedObj.validateLogin(currentUser.getName(), currentUser.getId());
-					sendMessage(valid);
+					boolean isValidLogin = sharedObj.validateLogin(currentUser.getName(), currentUser.getId());
+					sendMessage(isValidLogin);
 					
-					if (valid) {
+					if (isValidLogin) {
 						break;
 					}
 				}
 			} while (true);
 			
+			// Pass the current instance of ConnectHandler to the appropriate Menu
 			if (currentUser instanceof Agent) {
-				showAgentMenu();
+				new AgentMenu(this).show();
 			} else {
-				
+				new ClubMenu(this).show();
 			}
-
+			
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -109,76 +127,5 @@ public class ConnectHandler implements Runnable {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	private void showAgentMenu() throws ClassNotFoundException, IOException {
-		String option;
-		
-		do {
-			option = (String)in.readObject();
-			
-			switch (option) {
-				case "A":
-					addPlayer();
-					break;
-				case "B":
-					updatePlayerValuation();
-					break;
-				case "C":
-					updatePlayerStatus();
-					break;
-				default:
-					break;
-			}
-		} while (option.charAt(0) != 'Q');
-	}
-
-	private void addPlayer() throws ClassNotFoundException, IOException {
-		Player p = new Player();
-		p.setAgentId(currentUser.getId());
-		
-		sendMessage("Add Player...\n$ Enter player Name: ");
-		p.setName((String)in.readObject());
-		
-		sendMessage("$ Enter player age: ");
-		p.setAge(Integer.parseInt((String)in.readObject()));
-		
-		sendMessage("$ Enter club ID: ");
-		p.setClubId((String)in.readObject());
-		
-		sendMessage("$ Enter player valuation: ");
-		p.setValuation(Double.parseDouble((String)in.readObject()));
-		
-		sendMessage("$ Enter player status (FOR_SALE, SOLD, SALE_SUSPENDED): ");
-		p.setStatus(PlayerStatus.valueOf((String)in.readObject()));
-		
-		sendMessage("$ Enter player position (GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER): ");
-		p.setPosition(Position.valueOf((String)in.readObject()));
-		
-		sharedObj.addPlayer(p);
-	}
-	
-	private void updatePlayerValuation() throws ClassNotFoundException, IOException {
-		Player p = new Player();
-		
-		sendMessage("Update Player Valuation...\n$ Enter player ID: ");
-		p.setPlayerId((String)in.readObject());
-		
-		sendMessage("$ Enter new player valuation: ");
-		p.setValuation(Double.parseDouble((String)in.readObject()));
-		
-		sharedObj.updatePlayerValuation(p);
-	}
-	
-	private void updatePlayerStatus() throws ClassNotFoundException, IOException {
-		Player p = new Player();
-		
-		sendMessage("Update Player Status...\n$ Enter player ID: ");
-		p.setPlayerId((String)in.readObject());
-		
-		sendMessage("$ Enter new player status (FOR_SALE, SOLD, SALE_SUSPENDED): ");
-		p.setStatus(PlayerStatus.valueOf((String)in.readObject()));
-		
-		sharedObj.updatePlayerStatus(p);
 	}
 }

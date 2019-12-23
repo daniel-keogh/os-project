@@ -12,8 +12,7 @@ public class Player {
 	
 	public Player() { }
 
-	public Player(String playerId, String clubId, String agentId, String name, int age, double valuation,
-			Position position, PlayerStatus status) {
+	public Player(String playerId, String clubId, String agentId, String name, int age, double valuation, Position position, PlayerStatus status) {
 		this.playerId = playerId;
 		this.clubId = clubId;
 		this.agentId = agentId;

@@ -13,6 +13,7 @@ public class Club extends User {
 	public double getFunds() {
 		return funds;
 	}
+	
 	public Club setFunds(double funds) {
 		this.funds = funds;
 		
