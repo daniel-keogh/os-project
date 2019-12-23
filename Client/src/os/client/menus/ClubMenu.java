@@ -11,15 +11,7 @@ public class ClubMenu implements Menu {
 		char option;
 		boolean cont = true;
 		
-		System.out.println("|==================================================|");
-		System.out.println("|                    Club  Menu                    |");
-		System.out.println("|==================================================|");
-		System.out.println("| A. Search Players by Position                    |");
-		System.out.println("| B. Search for For Sale Player in Club            |");
-		System.out.println("| C. Suspend/Resume Sale                           |");
-		System.out.println("| D. Purchase Player                               |");
-		System.out.println("| Q. Logout                                        |");
-		System.out.println("|==================================================|");
+		listOptions();
 		
 		do {
 			try {
@@ -35,6 +27,18 @@ public class ClubMenu implements Menu {
 				System.out.println("[Error] "+ e.getMessage());
 			}
 		} while (cont);
+	}
+	
+	private void listOptions() {
+		System.out.println("|==================================================|");
+		System.out.println("|                    Club  Menu                    |");
+		System.out.println("|==================================================|");
+		System.out.println("| A. Search Players by Position                    |");
+		System.out.println("| B. Search for For Sale Player in Club            |");
+		System.out.println("| C. Suspend/Resume Sale                           |");
+		System.out.println("| D. Purchase Player                               |");
+		System.out.println("| Q. Logout                                        |");
+		System.out.println("|==================================================|");
 	}
 	
 	private boolean handleOption(char option) {

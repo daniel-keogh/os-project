@@ -1,42 +1,27 @@
 package os.server.players;
 
 public class Player {
-	private String name;
-	private int age;
 	private String playerId;
 	private String clubId;
 	private String agentId;
+	private String name;
+	private int age;
 	private double valuation;
-	private PlayerStatus status;
 	private Position position;
+	private PlayerStatus status;
 	
 	public Player() { }
-	
-	public Player(String name, int age, String playerId, String clubId, String agentId, double valuation, PlayerStatus status, Position position) {
-		this.name = name;
-		this.age = age;
+
+	public Player(String playerId, String clubId, String agentId, String name, int age, double valuation,
+			Position position, PlayerStatus status) {
 		this.playerId = playerId;
 		this.clubId = clubId;
 		this.agentId = agentId;
-		this.valuation = valuation;
-		this.status = status;
-		this.position = position;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
 		this.age = age;
+		this.valuation = valuation;
+		this.position = position;
+		this.status = status;
 	}
 
 	public String getPlayerId() {
@@ -63,6 +48,22 @@ public class Player {
 		this.agentId = agentId;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
 	public double getValuation() {
 		return valuation;
 	}
@@ -71,20 +72,20 @@ public class Player {
 		this.valuation = valuation;
 	}
 
-	public PlayerStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(PlayerStatus status) {
-		this.status = status;
-	}
-
 	public Position getPosition() {
 		return position;
 	}
 
 	public void setPosition(Position position) {
 		this.position = position;
+	}
+
+	public PlayerStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(PlayerStatus status) {
+		this.status = status;
 	}
 
 	@Override

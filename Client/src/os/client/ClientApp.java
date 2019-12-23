@@ -12,22 +12,32 @@ import os.client.menus.Menu;
 
 public class ClientApp {
 	private Socket connection;
-	private ObjectOutputStream out;
-	private ObjectInputStream in;
 	private String incomingMsg;
 	private String outgoingMsg;
 
+	private static ObjectOutputStream out;
+	private static ObjectInputStream in;
 	private static final String IP_ADDRESS = "127.0.0.1";
 	private static final int PORT = 10000;
 	private static final Scanner console = new Scanner(System.in);
 
-	private void sendMessage(String msg) {
+	public static void sendMessage(String msg) {
 		try {
 			out.writeObject(msg);
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Object receiveMessage() {
+		try {
+			return in.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public void launch() {
@@ -43,7 +53,7 @@ public class ClientApp {
 			
 			// Register / Login
 			do {
-				incomingMsg = (String)in.readObject();
+				incomingMsg = (String)receiveMessage();
 				System.out.println(incomingMsg);
 				outgoingMsg = console.next();
 				sendMessage(outgoingMsg);
@@ -55,7 +65,7 @@ public class ClientApp {
 			
 			do {
 				// Send user type (Agent or Club)
-				incomingMsg = (String)in.readObject();
+				incomingMsg = (String)receiveMessage();
 				System.out.println(incomingMsg);
 				outgoingMsg = console.next();
 				sendMessage(outgoingMsg);
@@ -63,14 +73,14 @@ public class ClientApp {
 				userType = outgoingMsg.toUpperCase().charAt(0);
 			
 				// Send name
-				incomingMsg = (String)in.readObject();
+				incomingMsg = (String)receiveMessage();
 				System.out.println(incomingMsg);
 				outgoingMsg = console.next();
 				outgoingMsg += console.nextLine();
 				sendMessage(outgoingMsg);
 				
 				// Send id
-				incomingMsg = (String)in.readObject();
+				incomingMsg = (String)receiveMessage();
 				System.out.println(incomingMsg);
 				outgoingMsg = console.next();
 				sendMessage(outgoingMsg);	
@@ -78,7 +88,7 @@ public class ClientApp {
 				// Extra steps needed for registration
 				if (action == 'R') {
 					// Send email
-					incomingMsg = (String)in.readObject();
+					incomingMsg = (String)receiveMessage();
 					System.out.println(incomingMsg);
 					
 					do {
@@ -95,14 +105,14 @@ public class ClientApp {
 					
 					if (userType == 'C') {
 						// Send funds
-						incomingMsg = (String)in.readObject();
+						incomingMsg = (String)receiveMessage();
 						System.out.println(incomingMsg);
 						outgoingMsg = console.next();
 						sendMessage(outgoingMsg);
 					}
 				}
 				
-				success = (Boolean) in.readObject();
+				success = (Boolean) receiveMessage();
 				System.out.println(String.format("%s %s\n", 
 						action == 'R' ? "Registration" : "Login", 
 						success ? "successful." : "unsuccessful. Try again.\nIt's possible the ID entered already exists, or was incorrect."));
@@ -123,8 +133,6 @@ public class ClientApp {
 			connection.close();
 		} catch (IOException e) {
 			System.out.println("Failed to connect to the server.");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

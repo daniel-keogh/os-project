@@ -63,8 +63,8 @@ public class Shared extends TimerTask {
 		Scanner in = new Scanner(new FileReader(PLAYERS_FILE));
 
 		while (in.hasNext()) {
-			Player p = new Player(in.next(), in.nextInt(), in.next(), in.next(), in.next(), in.nextDouble(),
-					PlayerStatus.valueOf(in.next()), Position.valueOf(in.next()));
+			Player p = new Player(in.next(), in.next(), in.next(), in.next(), in.nextInt(), in.nextDouble(),
+					Position.valueOf(in.next()), PlayerStatus.valueOf(in.next()));
 
 			players.add(p);
 		}

@@ -5,6 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import os.server.players.Player;
+import os.server.players.PlayerStatus;
+import os.server.players.Position;
 import os.server.users.Agent;
 import os.server.users.Club;
 import os.server.users.User;
@@ -80,7 +83,7 @@ public class ConnectHandler implements Runnable {
 						break;
 					}
 				} else {
-					Boolean valid = sharedObj.validateLogin(currentUser.getName(), currentUser.getId());
+					boolean valid = sharedObj.validateLogin(currentUser.getName(), currentUser.getId());
 					sendMessage(valid);
 					
 					if (valid) {
@@ -88,6 +91,12 @@ public class ConnectHandler implements Runnable {
 					}
 				}
 			} while (true);
+			
+			if (currentUser instanceof Agent) {
+				showAgentMenu();
+			} else {
+				
+			}
 
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -100,5 +109,48 @@ public class ConnectHandler implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private void showAgentMenu() throws ClassNotFoundException, IOException {
+		String option = (String)in.readObject();
+		
+		switch (option) {
+			case "A":
+				addPlayer();
+				break;
+			case "B":
+				//updatePlayerValuation();
+				break;
+			case "C":
+				//updatePlayerStatus();
+				break;
+			default:
+				break;
+		}
+	}
+
+	private void addPlayer() throws ClassNotFoundException, IOException {
+		Player p = new Player();
+		p.setAgentId(currentUser.getId());
+		
+		sendMessage("Add Player...\n$ Enter player Name: ");
+		p.setName((String)in.readObject());
+		
+		sendMessage("$ Enter player age: ");
+		p.setAge(Integer.parseInt((String)in.readObject()));
+		
+		sendMessage("$ Enter club ID: ");
+		p.setClubId((String)in.readObject());
+		
+		sendMessage("$ Enter player valuation: ");
+		p.setValuation(Double.parseDouble((String)in.readObject()));
+		
+		sendMessage("$ Enter player status (FOR_SALE, SOLD, SALE_SUSPENDED): ");
+		p.setStatus(PlayerStatus.valueOf((String)in.readObject()));
+		
+		sendMessage("$ Enter player position (GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER): ");
+		p.setPosition(Position.valueOf((String)in.readObject()));
+		
+		sharedObj.addPlayer(p);
 	}
 }

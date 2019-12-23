@@ -1,9 +1,14 @@
 package os.client.menus;
 
 import java.util.Scanner;
+import static os.client.ClientApp.receiveMessage;
+import static os.client.ClientApp.sendMessage;
 
 public class AgentMenu implements Menu {
 
+	private String incomingMsg;
+	private String outgoingMsg;
+	
 	private static final Scanner console = new Scanner(System.in);
 	
 	@Override
@@ -11,14 +16,7 @@ public class AgentMenu implements Menu {
 		char option;
 		boolean cont = true;
 
-		System.out.println("|==================================================|");
-		System.out.println("|                    Agent Menu                    |");
-		System.out.println("|==================================================|");
-		System.out.println("| A. Add Player                                    |");
-		System.out.println("| B. Update Player Valuation                       |");
-		System.out.println("| C. Update Player Status                          |");
-		System.out.println("| Q. Logout                                        |");
-		System.out.println("|==================================================|");
+		listOptions();
 
 		do {
 			try {
@@ -35,10 +33,22 @@ public class AgentMenu implements Menu {
 			}
 		} while (cont);
 	}
+	
+	private void listOptions() {
+		System.out.println("|==================================================|");
+		System.out.println("|                    Agent Menu                    |");
+		System.out.println("|==================================================|");
+		System.out.println("| A. Add Player                                    |");
+		System.out.println("| B. Update Player Valuation                       |");
+		System.out.println("| C. Update Player Status                          |");
+		System.out.println("| Q. Logout                                        |");
+		System.out.println("|==================================================|");
+	}
 
 	private boolean handleOption(char option) {
 		switch (Character.toUpperCase(option)) {
 		case 'A':
+			sendMessage("A");
 			addPlayer();
 			break;
 		case 'B':
@@ -57,8 +67,43 @@ public class AgentMenu implements Menu {
 	}
 
 	private void addPlayer() {
-		// TODO Auto-generated method stub
-
+		// Send player name
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
+		
+		// Send player age
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
+		
+		// Send club id
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
+		
+		// Send player valuation
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
+		
+		// Send player status
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
+		
+		// Send player status
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		outgoingMsg = console.next();
+		sendMessage(outgoingMsg);
+		
+		listOptions();
 	}
 
 	private void updatePlayerValuation() {
