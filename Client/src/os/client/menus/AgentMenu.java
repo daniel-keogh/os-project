@@ -61,7 +61,7 @@ public class AgentMenu implements Menu {
 				break;
 			case 'Q':
 				sendMessage("Q");
-				quit();
+				return false;
 			default:
 				break;
 		}

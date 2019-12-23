@@ -17,7 +17,7 @@ public class ConnectHandler implements Runnable {
 	private int socketId;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	private String message;
+	private String incomingMsg;
 	private User currentUser;
 
 	public ConnectHandler(Socket individualConn, int socketId, Shared sharedObj) {
@@ -65,8 +65,8 @@ public class ConnectHandler implements Runnable {
 			// Login
 			do {
 				sendMessage("$ Do you want to Register (R) or Login (L):");
-				message = (String) receiveMessage();
-			} while (!message.equalsIgnoreCase("L") && !message.equalsIgnoreCase("R"));
+				incomingMsg = (String) receiveMessage();
+			} while (!incomingMsg.equalsIgnoreCase("L") && !incomingMsg.equalsIgnoreCase("R"));
 
 			registerLogin();
 			
@@ -76,8 +76,7 @@ public class ConnectHandler implements Runnable {
 			} else {
 				new ClubMenu(this).show();
 			}
-			
-		} catch (IOException | ClassNotFoundException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -105,7 +104,7 @@ public class ConnectHandler implements Runnable {
 			sendMessage("$ Enter ID:");
 			currentUser.setId((String) receiveMessage());
 
-			if (message.equalsIgnoreCase("R")) {
+			if (incomingMsg.equalsIgnoreCase("R")) {
 				sendMessage("$ Enter email address:");
 				currentUser.setEmail((String) receiveMessage());
 				

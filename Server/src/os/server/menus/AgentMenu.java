@@ -1,7 +1,5 @@
 package os.server.menus;
 
-import java.io.IOException;
-
 import os.server.ConnectHandler;
 import os.server.players.Player;
 import os.server.players.PlayerStatus;
@@ -14,7 +12,7 @@ public class AgentMenu {
 		this.ch = ch;
 	}
 
-	public void show() throws ClassNotFoundException, IOException {
+	public void show() {
 		String option;
 		
 		do {

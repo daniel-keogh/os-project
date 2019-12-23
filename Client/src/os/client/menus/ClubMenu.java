@@ -1,5 +1,7 @@
 package os.client.menus;
 
+import static os.client.ClientApp.sendMessage;
+
 import java.util.Scanner;
 
 public class ClubMenu implements Menu {
@@ -44,19 +46,24 @@ public class ClubMenu implements Menu {
 	private boolean handleOption(char option) {
 		switch (Character.toUpperCase(option)) {
 			case 'A':
+				sendMessage("A");
 				searchByPosition();
 				break;
 			case 'B':
+				sendMessage("B");
 				searchForSale();
 				break;
 			case 'C':
+				sendMessage("C");
 				SuspendResumeSale();
 				break;
 			case 'D':
+				sendMessage("D");
 				purchasePlayer();
 				break;
 			case 'Q':
-				quit();
+				sendMessage("Q");
+				return false;
 			default:
 				break;
 		}
