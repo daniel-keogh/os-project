@@ -1,6 +1,13 @@
 package os.server.menus;
 
+import java.util.List;
+
 import os.server.ConnectHandler;
+import os.server.InsufficientFundsException;
+import os.server.players.Player;
+import os.server.players.PlayerStatus;
+import os.server.players.Position;
+import os.server.users.Club;
 
 public class ClubMenu {
 	private ConnectHandler ch;
@@ -23,7 +30,7 @@ public class ClubMenu {
 					searchAllForSale();
 					break;
 				case "C":
-					SuspendResumeSale();
+					suspendResumeSale();
 					break;
 				case "D":
 					purchasePlayer();
@@ -35,22 +42,44 @@ public class ClubMenu {
 	}
 
 	private void searchAllByPosition() {
-		// TODO Auto-generated method stub
+		List<Player> temp;
 		
+		ch.sendMessage("Search all by position...\n$ Enter position (GOALKEEPER, DEFENDER, MIDFIELDED, ATTACKER): ");
+		Position pos = Position.valueOf((String) ch.receiveMessage());
+		
+		temp = ch.getSharedObject().searchAllByPosition((Club) ch.getCurrentUser(), pos);
+		
+		ch.sendMessage(temp);
 	}
 
-	private void searchAllForSale() {
-		// TODO Auto-generated method stub
+	private void searchAllForSale() {	
+		ch.sendMessage("Search all for sale...\n");
 		
+		List<Player> temp = ch.getSharedObject().searchAllForSale((Club) ch.getCurrentUser());
+		
+		ch.sendMessage(temp);
 	}
 
-	private void SuspendResumeSale() {
-		// TODO Auto-generated method stub
+	private void suspendResumeSale() {
+		ch.sendMessage("Suspend / Resume sale...\n$ Enter the player ID: ");
+		Player p = new Player();
+		p.setPlayerId((String) ch.receiveMessage());
 		
+		ch.sendMessage("$ Enter the new player status (FOR_SALE, SOLD, SALE_SUSPENDED): ");
+		PlayerStatus ps = PlayerStatus.valueOf((String) ch.receiveMessage());
+		
+		ch.getSharedObject().suspendResumeSale(p, ps);
 	}
 
 	private void purchasePlayer() {
-		// TODO Auto-generated method stub
+		ch.sendMessage("Purchase player...\n$ Enter player ID: ");
+		Player p = new Player();
+		p.setPlayerId((String) ch.receiveMessage());
 		
+		try {
+			ch.getSharedObject().purchasePlayer((Club) ch.getCurrentUser(), p);
+		} catch (InsufficientFundsException e) {
+			ch.sendMessage(e.getMessage());
+		}
 	}
 }

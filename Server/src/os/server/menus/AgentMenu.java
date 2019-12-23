@@ -36,7 +36,7 @@ public class AgentMenu {
 		} while (option.charAt(0) != 'Q');
 	}
 
-	private void addPlayer() throws ClassNotFoundException, IOException {
+	private void addPlayer() {
 		Player p = new Player();
 		p.setAgentId(ch.getCurrentUser().getId());
 		
@@ -61,7 +61,7 @@ public class AgentMenu {
 		ch.getSharedObject().addPlayer(p);
 	}
 	
-	private void updatePlayerValuation() throws ClassNotFoundException, IOException {
+	private void updatePlayerValuation() {
 		Player p = new Player();
 		
 		ch.sendMessage("Update Player Valuation...\n$ Enter player ID: ");
@@ -73,7 +73,7 @@ public class AgentMenu {
 		ch.getSharedObject().updatePlayerValuation(p);
 	}
 	
-	private void updatePlayerStatus() throws ClassNotFoundException, IOException {
+	private void updatePlayerStatus() {
 		Player p = new Player();
 		
 		ch.sendMessage("Update Player Status...\n$ Enter player ID: ");

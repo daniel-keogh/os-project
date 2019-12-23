@@ -158,7 +158,7 @@ public class Shared extends TimerTask {
 		return temp;
 	}
 	
-	private synchronized List<Player> searchAllForSale(Club c) {
+	public synchronized List<Player> searchAllForSale(Club c) {
 		List<Player> temp = new ArrayList<>();
 		
 		players.forEach(p -> {
@@ -170,11 +170,11 @@ public class Shared extends TimerTask {
 		return temp;
 	}
 
-	private synchronized void SuspendResumeSale(Player p, PlayerStatus ps) {
+	public synchronized void suspendResumeSale(Player p, PlayerStatus ps) {
 		players.get(players.indexOf(p)).setStatus(ps);
 	}
 
-	private synchronized void purchasePlayer(Club c, Player p) throws InsufficientFundsException {
+	public synchronized void purchasePlayer(Club c, Player p) throws InsufficientFundsException {
 		if (c.getFunds() < p.getValuation()) {
 			throw new InsufficientFundsException(c, p);
 		}
