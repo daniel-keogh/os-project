@@ -52,7 +52,7 @@ public class Shared extends TimerTask {
 		}
 	}
 
-	private void loadPlayersList() throws FileNotFoundException {
+	private synchronized void loadPlayersList() throws FileNotFoundException {
 		Scanner in = new Scanner(new FileReader(PLAYERS_FILE));
 
 		while (in.hasNext()) {
@@ -65,7 +65,7 @@ public class Shared extends TimerTask {
 		in.close();
 	}
 
-	private void loadClubAgentsList() throws FileNotFoundException {
+	private synchronized void loadClubAgentsList() throws FileNotFoundException {
 		Scanner in = new Scanner(new FileReader(CLUB_AGENTS_FILE));
 		String id;
 		User u;
@@ -144,5 +144,43 @@ public class Shared extends TimerTask {
 		if (players.contains(p)) {
 			players.get(players.indexOf(p)).setStatus(p.getStatus());
 		}
+	}
+	
+	public synchronized List<Player> searchAllByPosition(Club c, Position pos) {
+		List<Player> temp = new ArrayList<>();
+		
+		players.forEach(p -> {
+			if (p.getPosition().equals(pos) && p.getClubId().equalsIgnoreCase(c.getId())) {
+				temp.add(p);
+			}
+		});
+		
+		return temp;
+	}
+	
+	private synchronized List<Player> searchAllForSale(Club c) {
+		List<Player> temp = new ArrayList<>();
+		
+		players.forEach(p -> {
+			if (p.getStatus().equals(PlayerStatus.FOR_SALE) && p.getClubId().equalsIgnoreCase(c.getId())) {
+				temp.add(p);
+			}
+		});
+		
+		return temp;
+	}
+
+	private synchronized void SuspendResumeSale(Player p, PlayerStatus ps) {
+		players.get(players.indexOf(p)).setStatus(ps);
+	}
+
+	private synchronized void purchasePlayer(Club c, Player p) throws InsufficientFundsException {
+		if (c.getFunds() < p.getValuation()) {
+			throw new InsufficientFundsException(c, p);
+		}
+		
+		c.setFunds(c.getFunds() - p.getValuation());
+		p.setStatus(PlayerStatus.SOLD);
+		p.setClubId(c.getId());
 	}
 }
