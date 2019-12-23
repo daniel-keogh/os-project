@@ -90,6 +90,6 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return String.format("%s %s %s %s %s %s %s %s", playerId, clubId, agentId, name, age, valuation, position, status);
+		return String.format("%s %s %s %s %d %.2f %s %s", playerId, clubId, agentId, name, age, valuation, position, status);
 	}
 }

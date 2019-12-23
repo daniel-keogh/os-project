@@ -18,10 +18,10 @@ import os.server.users.Club;
 import os.server.users.User;
 
 public class Shared extends TimerTask {
-	private Timer saveListsTimer = new Timer();
 	private List<Player> players = new ArrayList<>();
 	private List<Agent> agents = new ArrayList<>();
 	private List<Club> clubs = new ArrayList<>();
+	private Timer saveListsTimer = new Timer();
 
 	private static final String CLUB_AGENTS_FILE = "club_agents.txt";
 	private static final String PLAYERS_FILE = "players.txt";
@@ -39,21 +39,14 @@ public class Shared extends TimerTask {
 		System.out.println("Inside shared run method");
 		
 		try (PrintWriter outFile = new PrintWriter(PLAYERS_FILE)) {
-			players.forEach(player -> {
-				outFile.println(player);
-			});
+			players.forEach(player -> outFile.println(player));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		
 		try (PrintWriter outFile = new PrintWriter(CLUB_AGENTS_FILE)) {
-			agents.forEach(agent -> {
-				outFile.println(agent);
-			});
-			
-			clubs.forEach(club -> {
-				outFile.println(club);
-			});
+			agents.forEach(agent -> outFile.println(agent));
+			clubs.forEach(club -> outFile.println(club));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -98,12 +91,12 @@ public class Shared extends TimerTask {
 
 		if (userType == 'A') {
 			Agent a = new Agent();
-			a.setId(id).setName(name);
+			a.setId(id.toUpperCase()).setName(name);
 
 			return agents.contains(a);
 		} else if (userType == 'C') {
 			Club c = new Club();
-			c.setId(id).setName(name);
+			c.setId(id.toUpperCase()).setName(name);
 
 			return clubs.contains(c);
 		}
