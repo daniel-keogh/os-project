@@ -68,46 +68,7 @@ public class ConnectHandler implements Runnable {
 				message = (String) receiveMessage();
 			} while (!message.equalsIgnoreCase("L") && !message.equalsIgnoreCase("R"));
 
-			do {
-				sendMessage("$ Are you an agent (A) or a club (C)?");
-				if (((String) receiveMessage()).equalsIgnoreCase("A")) {
-					currentUser = new Agent();
-				} else {
-					currentUser = new Club();
-				}
-
-				sendMessage("$ Enter name:");
-				currentUser.setName((String) receiveMessage());
-
-				sendMessage("$ Enter ID:");
-				currentUser.setId((String) receiveMessage());
-
-				if (message.equalsIgnoreCase("R")) {
-					sendMessage("$ Enter email address:");
-					currentUser.setEmail((String) receiveMessage());
-					
-					if (currentUser instanceof Club) {
-						// Get funds
-						sendMessage("$ Enter funds: ");
-						((Club) currentUser).setFunds(Double.parseDouble((String)receiveMessage()));
-					}
-					
-					// Register the new user & send result
-					boolean successfulReg = sharedObj.register(currentUser);
-					sendMessage(successfulReg);
-					
-					if (successfulReg) {
-						break;
-					}
-				} else {
-					boolean isValidLogin = sharedObj.validateLogin(currentUser.getName(), currentUser.getId());
-					sendMessage(isValidLogin);
-					
-					if (isValidLogin) {
-						break;
-					}
-				}
-			} while (true);
+			registerLogin();
 			
 			// Pass the current instance of ConnectHandler to the appropriate Menu
 			if (currentUser instanceof Agent) {
@@ -127,5 +88,48 @@ public class ConnectHandler implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private void registerLogin() {
+		do {
+			sendMessage("$ Are you an agent (A) or a club (C)?");
+			if (((String) receiveMessage()).equalsIgnoreCase("A")) {
+				currentUser = new Agent();
+			} else {
+				currentUser = new Club();
+			}
+
+			sendMessage("$ Enter name:");
+			currentUser.setName((String) receiveMessage());
+
+			sendMessage("$ Enter ID:");
+			currentUser.setId((String) receiveMessage());
+
+			if (message.equalsIgnoreCase("R")) {
+				sendMessage("$ Enter email address:");
+				currentUser.setEmail((String) receiveMessage());
+				
+				if (currentUser instanceof Club) {
+					// Get funds
+					sendMessage("$ Enter funds: ");
+					((Club) currentUser).setFunds(Double.parseDouble((String)receiveMessage()));
+				}
+				
+				// Register the new user & send result
+				boolean successfulReg = sharedObj.register(currentUser);
+				sendMessage(successfulReg);
+				
+				if (successfulReg) {
+					break;
+				}
+			} else {
+				boolean isValidLogin = sharedObj.validateLogin(currentUser.getName(), currentUser.getId());
+				sendMessage(isValidLogin);
+				
+				if (isValidLogin) {
+					break;
+				}
+			}
+		} while (true);
 	}
 }
