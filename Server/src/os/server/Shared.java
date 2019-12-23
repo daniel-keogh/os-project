@@ -179,6 +179,12 @@ public class Shared extends TimerTask {
 			throw new InsufficientFundsException(c, p);
 		}
 		
+		// Update selling clubs funds
+		Club seller = new Club();
+		seller.setId(p.getClubId());
+		seller = clubs.get(clubs.indexOf(seller));
+		seller.setFunds(seller.getFunds() + p.getValuation());
+		
 		c.setFunds(c.getFunds() - p.getValuation());
 		p.setStatus(PlayerStatus.SOLD);
 		p.setClubId(c.getId());
