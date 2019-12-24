@@ -23,7 +23,7 @@ public class ClubMenu extends Menu {
 			System.out.print("Select an option listed above: ");
 			option = console.next().charAt(0);
 
-			if (!Character.toString(option).matches("[a-dqA-DQ]")) {
+			if (!Character.toString(option).matches("[a-eqA-EQ]")) {
 				System.out.println("[Error] Please enter one of the options provided.");
 			}
 
@@ -39,6 +39,7 @@ public class ClubMenu extends Menu {
 		System.out.println("| B. Search for For Sale Player in Club            |");
 		System.out.println("| C. Suspend/Resume Sale                           |");
 		System.out.println("| D. Purchase Player                               |");
+		System.out.println("| E. Display All Players                           |");
 		System.out.println("| Q. Logout                                        |");
 		System.out.println("|==================================================|");
 	}
@@ -60,6 +61,10 @@ public class ClubMenu extends Menu {
 			case 'D':
 				sendMessage("D");
 				purchasePlayer();
+				break;
+			case 'E':
+				sendMessage("E");
+				displayAllPlayers();
 				break;
 			case 'Q':
 				sendMessage("Q");
@@ -117,6 +122,13 @@ public class ClubMenu extends Menu {
 		sendMessage(outgoingMsg);
 		
 		// Display result
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		
+		listOptions();
+	}
+	
+	private void displayAllPlayers() {
 		incomingMsg = (String)receiveMessage();
 		System.out.println(incomingMsg);
 		

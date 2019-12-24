@@ -23,7 +23,7 @@ public class AgentMenu extends Menu {
 			System.out.print("Select an option listed above: ");
 			option = console.next().charAt(0);
 
-			if (!Character.toString(option).matches("[a-cqA-cQ]")) {
+			if (!Character.toString(option).matches("[a-dqA-DQ]")) {
 				System.out.println("[Error] Please enter one of the options provided.");
 			}
 
@@ -38,6 +38,7 @@ public class AgentMenu extends Menu {
 		System.out.println("| A. Add Player                                    |");
 		System.out.println("| B. Update Player Valuation                       |");
 		System.out.println("| C. Update Player Status                          |");
+		System.out.println("| D. Display All Players                           |");
 		System.out.println("| Q. Logout                                        |");
 		System.out.println("|==================================================|");
 	}
@@ -55,6 +56,10 @@ public class AgentMenu extends Menu {
 			case 'C':
 				sendMessage("C");
 				updatePlayerStatus();
+				break;
+			case 'D':
+				sendMessage("D");
+				displayAllPlayers();
 				break;
 			case 'Q':
 				sendMessage("Q");
@@ -134,6 +139,13 @@ public class AgentMenu extends Menu {
 		System.out.println(incomingMsg);
 		outgoingMsg = console.next();
 		sendMessage(outgoingMsg);
+		
+		listOptions();
+	}
+	
+	private void displayAllPlayers() {
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
 		
 		listOptions();
 	}

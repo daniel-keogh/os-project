@@ -121,9 +121,9 @@ public class ClientApp {
 				} else {
 					System.out.println((action == 'R' ? "Registration" : "Login") + " successful.");
 				}
-				
 			} while (!success);
 			
+			// Display the menu
 			Menu menu;
 			if (userType == 'A') {
 				menu = new AgentMenu();

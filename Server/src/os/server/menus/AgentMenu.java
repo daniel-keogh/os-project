@@ -1,5 +1,7 @@
 package os.server.menus;
 
+import java.util.List;
+
 import os.server.ConnectHandler;
 import os.server.players.Player;
 import os.server.players.PlayerStatus;
@@ -27,6 +29,9 @@ public class AgentMenu {
 					break;
 				case "C":
 					updatePlayerStatus();
+					break;
+				case "D":
+					displayAllPlayers();
 					break;
 				default:
 					break;
@@ -81,5 +86,10 @@ public class AgentMenu {
 		p.setStatus(PlayerStatus.valueOf((String)ch.receiveMessage()));
 		
 		ch.getSharedObject().updatePlayerStatus(p);
+	}
+	
+	private void displayAllPlayers() {
+		List<Player> temp = ch.getSharedObject().getPlayers();
+		ch.sendMessage(temp.toString());
 	}
 }

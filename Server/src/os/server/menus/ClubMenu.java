@@ -35,6 +35,9 @@ public class ClubMenu {
 				case "D":
 					purchasePlayer();
 					break;
+				case "E":
+					displayAllPlayers();
+					break;
 				default:
 					break;
 			}
@@ -80,5 +83,10 @@ public class ClubMenu {
 		} catch (InsufficientFundsException e) {
 			ch.sendMessage(e.getMessage());
 		}
+	}
+	
+	private void displayAllPlayers() {
+		List<Player> temp = ch.getSharedObject().getPlayers();
+		ch.sendMessage(temp.toString());
 	}
 }

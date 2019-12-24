@@ -34,6 +34,18 @@ public class Shared extends TimerTask {
 		saveListsTimer.schedule(this, 120000, 120000);
 	}
 	
+	public List<Player> getPlayers() {
+		return new ArrayList<Player>(players);
+	}
+	
+	public List<Agent> getAgents() {
+		return new ArrayList<Agent>(agents);
+	}
+
+	public List<Club> getClubs() {
+		return new ArrayList<Club>(clubs);
+	}
+
 	@Override
 	public synchronized void run() {
 		System.out.println("Inside shared run method");
