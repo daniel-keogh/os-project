@@ -1,6 +1,7 @@
 package os.client.menus;
 
 import java.util.Scanner;
+
 import static os.client.ClientApp.receiveMessage;
 import static os.client.ClientApp.sendMessage;
 
@@ -19,18 +20,14 @@ public class AgentMenu extends Menu {
 		listOptions();
 
 		do {
-			try {
-				System.out.print("Select an option listed above: ");
-				option = console.next().charAt(0);
+			System.out.print("Select an option listed above: ");
+			option = console.next().charAt(0);
 
-				if (!Character.toString(option).matches("[a-cqA-cQ]")) {
-					throw new InvalidOptionException();
-				}
-
-				cont = handleOption(option);
-			} catch (InvalidOptionException e) {
-				System.out.println("[Error] "+ e.getMessage());
+			if (!Character.toString(option).matches("[a-cqA-cQ]")) {
+				System.out.println("[Error] Please enter one of the options provided.");
 			}
+
+			cont = handleOption(option);
 		} while (cont);
 	}
 	
