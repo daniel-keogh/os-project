@@ -22,6 +22,6 @@ public class Club extends User {
 
 	@Override
 	public String toString() {
-		return super.toString() + " " + funds;
+		return String.format("%s %.2f", super.toString(), funds);
 	}
 }
