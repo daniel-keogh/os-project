@@ -85,23 +85,14 @@ public class Shared extends TimerTask {
 		in.close();
 	}
 
-	public synchronized boolean validateLogin(String name, String id) {
-		char userType = Character.toUpperCase(id.charAt(0));
-		name = name.replaceAll(" ", "_");
-
-		if (userType == 'A') {
-			Agent a = new Agent();
-			a.setId(id.toUpperCase()).setName(name);
-
-			return agents.contains(a);
-		} else if (userType == 'C') {
-			Club c = new Club();
-			c.setId(id.toUpperCase()).setName(name);
-
-			return clubs.contains(c);
-		}
-
-		return false;
+	public synchronized boolean validateLogin(User user) {
+		user.setId(user.getId().toUpperCase());
+		user.setName(user.getName().replaceAll(" ", "_"));
+		
+		List<? extends User> temp = (user instanceof Agent) ? agents : clubs;
+		
+		// Login is based on both the User's ID and their name
+		return temp.contains(user) && temp.get(temp.indexOf(user)).getName().equalsIgnoreCase(user.getName());
 	}
 
 	public synchronized boolean register(User user) {		
