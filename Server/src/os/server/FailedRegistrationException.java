@@ -7,5 +7,4 @@ public class FailedRegistrationException extends Exception {
 	public FailedRegistrationException(String message) {
 		super(message);
 	}
-
 }
