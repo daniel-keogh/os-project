@@ -27,64 +27,80 @@ public class Player {
 		return playerId;
 	}
 
-	public void setPlayerId(String playerId) {
+	public Player setPlayerId(String playerId) {
 		this.playerId = playerId;
+		
+		return this;
 	}
 
 	public String getClubId() {
 		return clubId;
 	}
 
-	public void setClubId(String clubId) {
+	public Player setClubId(String clubId) {
 		this.clubId = clubId;
+		
+		return this;
 	}
 
 	public String getAgentId() {
 		return agentId;
 	}
 
-	public void setAgentId(String agentId) {
+	public Player setAgentId(String agentId) {
 		this.agentId = agentId;
+		
+		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public Player setName(String name) {
 		this.name = name;
+		
+		return this;
 	}
 
 	public int getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public Player setAge(int age) {
 		this.age = age;
+		
+		return this;
 	}
 
 	public double getValuation() {
 		return valuation;
 	}
 
-	public void setValuation(double valuation) {
+	public Player setValuation(double valuation) {
 		this.valuation = valuation;
+		
+		return this;
 	}
 
 	public Position getPosition() {
 		return position;
 	}
 
-	public void setPosition(Position position) {
+	public Player setPosition(Position position) {
 		this.position = position;
+		
+		return this;
 	}
 
 	public PlayerStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(PlayerStatus status) {
+	public Player setStatus(PlayerStatus status) {
 		this.status = status;
+		
+		return this;
 	}
 
 	@Override

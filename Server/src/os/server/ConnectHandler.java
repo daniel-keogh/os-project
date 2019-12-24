@@ -17,7 +17,6 @@ public class ConnectHandler implements Runnable {
 	private int socketId;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	private String incomingMsg;
 	private User currentUser;
 
 	public ConnectHandler(Socket individualConn, int socketId, Shared sharedObj) {
@@ -63,13 +62,7 @@ public class ConnectHandler implements Runnable {
 
 			System.out.println(String.format("Connection %d from IP address: %s", socketId, individualConn.getInetAddress()));
 
-			// Login
-			do {
-				sendMessage("$ Do you want to Register (R) or Login (L):");
-				incomingMsg = (String) receiveMessage();
-			} while (!incomingMsg.equalsIgnoreCase("L") && !incomingMsg.equalsIgnoreCase("R"));
-
-			registerLogin();
+			registerOrLogin();
 			
 			// One logged-in/registered, pass the current instance of ConnectHandler to the appropriate Menu
 			if (currentUser instanceof Agent) {
@@ -90,8 +83,14 @@ public class ConnectHandler implements Runnable {
 		}
 	}
 	
-	private void registerLogin() {
+	private void registerOrLogin() {
+		String incomingMsg;
 		boolean success = false;
+		
+		do {
+			sendMessage("$ Do you want to Register (R) or Login (L):");
+			incomingMsg = (String) receiveMessage();
+		} while (!incomingMsg.equalsIgnoreCase("L") && !incomingMsg.equalsIgnoreCase("R"));
 		
 		do {
 			sendMessage("$ Are you an agent (A) or a club (C)?");

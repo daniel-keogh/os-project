@@ -69,8 +69,16 @@ public class Shared extends TimerTask {
 
 		Player p;
 		while (inFile.hasNext()) {
-			p = new Player(inFile.next(), inFile.next(), inFile.next(), inFile.next(), inFile.nextInt(), inFile.nextDouble(),
-					Position.valueOf(inFile.next()), PlayerStatus.valueOf(inFile.next()));
+			p = new Player();
+			
+			p.setPlayerId(inFile.next())
+				.setClubId(inFile.next())
+				.setAgentId(inFile.next())
+				.setName(inFile.next())
+				.setAge(inFile.nextInt())
+				.setValuation(inFile.nextDouble())
+				.setPosition(Position.valueOf(inFile.next()))
+				.setStatus(PlayerStatus.valueOf(inFile.next()));
 
 			players.add(p);
 		}
@@ -175,7 +183,7 @@ public class Shared extends TimerTask {
 		List<Player> temp = new ArrayList<>();
 		
 		players.forEach(p -> {
-			if (p.getStatus().equals(PlayerStatus.FOR_SALE) && p.getClubId().equalsIgnoreCase(c.getId())) {
+			if (p.getStatus() == PlayerStatus.FOR_SALE && p.getClubId().equalsIgnoreCase(c.getId())) {
 				temp.add(p);
 			}
 		});
