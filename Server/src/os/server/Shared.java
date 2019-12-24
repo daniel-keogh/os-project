@@ -122,7 +122,7 @@ public class Shared extends TimerTask {
 
 	public synchronized void register(User user) throws FailedRegistrationException {
 		
-		if (!agents.contains(user) && !clubs.contains(user)) {
+		if (agents.contains(user) || clubs.contains(user)) {
 			throw new FailedRegistrationException("A user with ID "+ user.getId() +" already exists.");
 		}
 		
