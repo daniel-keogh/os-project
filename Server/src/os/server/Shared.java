@@ -67,23 +67,23 @@ public class Shared extends TimerTask {
 	}
 
 	private synchronized void loadClubAgentsList() throws FileNotFoundException {
-		Scanner in = new Scanner(new FileReader(CLUB_AGENTS_FILE));
+		Scanner inFile = new Scanner(new FileReader(CLUB_AGENTS_FILE));
 		String id;
 		User u;
 
-		while (in.hasNext()) {
-			id = in.next();
+		while (inFile.hasNext()) {
+			id = inFile.next();
 
 			if (id.charAt(0) == 'A') {
-				u = new Agent(in.next(), id, in.next());
+				u = new Agent(inFile.next(), id, inFile.next());
 				agents.add((Agent) u);
 			} else if (id.charAt(0) == 'C') {
-				u = new Club(in.next(), id, in.next(), in.nextDouble());
+				u = new Club(inFile.next(), id, inFile.next(), inFile.nextDouble());
 				clubs.add((Club) u);
 			}
 		}
 
-		in.close();
+		inFile.close();
 	}
 
 	public synchronized void login(User user) throws FailedLoginException {
