@@ -53,6 +53,7 @@ public class ConnectHandler implements Runnable {
 		return null;
 	}
 
+	@Override
 	public void run() {
 		try {
 			out = new ObjectOutputStream(individualConn.getOutputStream());
@@ -70,7 +71,7 @@ public class ConnectHandler implements Runnable {
 
 			registerLogin();
 			
-			// Pass the current instance of ConnectHandler to the appropriate Menu
+			// One logged-in/registered, pass the current instance of ConnectHandler to the appropriate Menu
 			if (currentUser instanceof Agent) {
 				new AgentMenu(this).show();
 			} else {
@@ -90,6 +91,8 @@ public class ConnectHandler implements Runnable {
 	}
 	
 	private void registerLogin() {
+		boolean success = false;
+		
 		do {
 			sendMessage("$ Are you an agent (A) or a club (C)?");
 			if (((String) receiveMessage()).equalsIgnoreCase("A")) {
@@ -103,32 +106,30 @@ public class ConnectHandler implements Runnable {
 
 			sendMessage("$ Enter ID:");
 			currentUser.setId((String) receiveMessage());
-
-			if (incomingMsg.equalsIgnoreCase("R")) {
-				sendMessage("$ Enter email address:");
-				currentUser.setEmail((String) receiveMessage());
-				
-				if (currentUser instanceof Club) {
-					// Get funds
-					sendMessage("$ Enter funds: ");
-					((Club) currentUser).setFunds(Double.parseDouble((String)receiveMessage()));
+			
+			try {
+				// Extra steps needed before registering
+				if (incomingMsg.equalsIgnoreCase("R")) {
+					sendMessage("$ Enter email address:");
+					currentUser.setEmail((String) receiveMessage());
+					
+					if (currentUser instanceof Club) {
+						// Get funds
+						sendMessage("$ Enter funds: ");
+						((Club) currentUser).setFunds(Double.parseDouble((String)receiveMessage()));
+					}
+					
+					sharedObj.register(currentUser);	
+				} else {
+					sharedObj.login(currentUser);
 				}
 				
-				// Register the new user & send result
-				boolean successfulReg = sharedObj.register(currentUser);
-				sendMessage(successfulReg);
-				
-				if (successfulReg) {
-					break;
-				}
-			} else {
-				boolean isValidLogin = sharedObj.validateLogin(currentUser);
-				sendMessage(isValidLogin);
-				
-				if (isValidLogin) {
-					break;
-				}
+				success = true;
+				sendMessage(success);
+			} catch (FailedLoginException | FailedRegistrationException e) {
+				sendMessage(success);
+				sendMessage(e.getMessage());
 			}
-		} while (true);
+		} while (!success);
 	}
 }

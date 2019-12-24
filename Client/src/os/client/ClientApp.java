@@ -114,9 +114,13 @@ public class ClientApp {
 				}
 				
 				success = (Boolean) receiveMessage();
-				System.out.println(String.format("%s %s\n", 
-						action == 'R' ? "Registration" : "Login", 
-						success ? "successful." : "unsuccessful. Try again.\nIt's possible the ID entered already exists, or was incorrect."));
+				
+				// Get appropriate error message if there is one
+				if (!success) {
+					System.out.println("[Error] "+ (String) receiveMessage());
+				} else {
+					System.out.println((action == 'R' ? "Registration" : "Login") + " successful.");
+				}
 				
 			} while (!success);
 			

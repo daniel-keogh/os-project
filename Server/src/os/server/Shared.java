@@ -53,16 +53,17 @@ public class Shared extends TimerTask {
 	}
 
 	private synchronized void loadPlayersList() throws FileNotFoundException {
-		Scanner in = new Scanner(new FileReader(PLAYERS_FILE));
+		Scanner inFile = new Scanner(new FileReader(PLAYERS_FILE));
 
-		while (in.hasNext()) {
-			Player p = new Player(in.next(), in.next(), in.next(), in.next(), in.nextInt(), in.nextDouble(),
-					Position.valueOf(in.next()), PlayerStatus.valueOf(in.next()));
+		Player p;
+		while (inFile.hasNext()) {
+			p = new Player(inFile.next(), inFile.next(), inFile.next(), inFile.next(), inFile.nextInt(), inFile.nextDouble(),
+					Position.valueOf(inFile.next()), PlayerStatus.valueOf(inFile.next()));
 
 			players.add(p);
 		}
 
-		in.close();
+		inFile.close();
 	}
 
 	private synchronized void loadClubAgentsList() throws FileNotFoundException {
@@ -85,40 +86,39 @@ public class Shared extends TimerTask {
 		in.close();
 	}
 
-	public synchronized boolean validateLogin(User user) {
+	public synchronized void login(User user) throws FailedLoginException {
 		user.setId(user.getId().toUpperCase());
 		user.setName(user.getName().replaceAll(" ", "_"));
 		
 		List<? extends User> temp = (user instanceof Agent) ? agents : clubs;
 		
 		// Login is based on both the User's ID and their name
-		return temp.contains(user) && temp.get(temp.indexOf(user)).getName().equalsIgnoreCase(user.getName());
+		boolean isValidLogin = temp.contains(user) && temp.get(temp.indexOf(user)).getName().equalsIgnoreCase(user.getName());
+	
+		if (!isValidLogin) {
+			throw new FailedLoginException("User ID or name is incorrect.");
+		}
 	}
 
-	public synchronized boolean register(User user) {		
-		if (user instanceof Agent) {
-			if (!agents.contains(user)) {
-				
-				if (user.getId().charAt(0) != 'A') {
-					user.setId("A"+ user.getId());
-				}
-				
-				agents.add((Agent) user);
-				return true;
-			}
-		} else if (user instanceof Club) {
-			if (!clubs.contains(user)) {
-
-				if (user.getId().charAt(0) != 'C') {
-					user.setId("C"+ user.getId());
-				}
-				
-				clubs.add((Club) user);
-				return true;
-			}
+	public synchronized void register(User user) throws FailedRegistrationException {
+		
+		if (!agents.contains(user) && !clubs.contains(user)) {
+			throw new FailedRegistrationException("A user with ID "+ user.getId() +" already exists.");
 		}
-
-		return false;
+		
+		if (user instanceof Agent) {
+			if (user.getId().charAt(0) != 'A') {
+				user.setId("A"+ user.getId());
+			}
+			
+			agents.add((Agent) user);
+		} else {
+			if (user.getId().charAt(0) != 'C') {
+				user.setId("C"+ user.getId());
+			}
+			
+			clubs.add((Club) user);
+		}
 	}
 
 	public synchronized void addPlayer(Player p) {
