@@ -14,14 +14,9 @@ public class ClientApp {
 	private Socket connection;
 	private String incomingMsg;
 	private String outgoingMsg;
-
+	
 	private static ObjectOutputStream out;
 	private static ObjectInputStream in;
-	
-	private enum UserType {
-		CLUB,
-		AGENT
-	}
 	
 	private static final String IP_ADDRESS = "127.0.0.1";
 	private static final int PORT = 10000;
@@ -65,9 +60,9 @@ public class ClientApp {
 				sendMessage(outgoingMsg);
 			} while(!outgoingMsg.equalsIgnoreCase("R") && !outgoingMsg.equalsIgnoreCase("L"));
 			
-			char action = outgoingMsg.toUpperCase().charAt(0);
-			Boolean success = false;
 			UserType userType;
+			UserAction userAction = outgoingMsg.toUpperCase().charAt(0) == 'R' ? UserAction.REGISTRATION : UserAction.LOGIN;
+			Boolean success = false;
 			
 			do {
 				// Send user type (Agent or Club)
@@ -92,7 +87,7 @@ public class ClientApp {
 				sendMessage(outgoingMsg);	
 				
 				// Extra steps needed for registration
-				if (action == 'R') {
+				if (userAction == UserAction.REGISTRATION) {
 					// Send email
 					incomingMsg = (String)receiveMessage();
 					System.out.println(incomingMsg);
@@ -124,7 +119,7 @@ public class ClientApp {
 				if (!success) {
 					System.out.println("[Error] "+ (String) receiveMessage());
 				} else {
-					System.out.println((action == 'R' ? "Registration" : "Login") + " successful.");
+					System.out.println(userAction.getAction() + " successful.");
 				}
 			} while (!success);
 			
@@ -144,6 +139,26 @@ public class ClientApp {
 		} catch (IOException e) {
 			System.out.println("Failed to connect to the server.");
 			e.printStackTrace();
+		}
+	}
+	
+	private enum UserType {
+		CLUB,
+		AGENT
+	}
+	
+	private enum UserAction {
+		LOGIN("Login"),
+		REGISTRATION("Registration");
+		
+		private String action;
+		
+		UserAction(String action) {
+			this.action = action;
+		}
+		
+		public String getAction() {
+			return action;
 		}
 	}
 }
