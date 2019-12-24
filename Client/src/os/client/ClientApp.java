@@ -131,7 +131,7 @@ public class ClientApp {
 				menu = new ClubMenu();
 			}
 			
-			menu.showMenu();
+			menu.show();
 			
 			out.close();
 			in.close();

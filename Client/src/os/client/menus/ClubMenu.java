@@ -13,7 +13,7 @@ public class ClubMenu extends Menu {
 	private static final Scanner console = new Scanner(System.in);
 	
 	@Override
-	public void showMenu() {
+	public void show() {
 		char option;
 		boolean cont = true;
 		
