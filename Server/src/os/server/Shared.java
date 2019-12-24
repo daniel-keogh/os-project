@@ -107,11 +107,21 @@ public class Shared extends TimerTask {
 	public synchronized boolean register(User user) {		
 		if (user instanceof Agent) {
 			if (!agents.contains(user)) {
+				
+				if (user.getId().charAt(0) != 'A') {
+					user.setId("A"+ user.getId());
+				}
+				
 				agents.add((Agent) user);
 				return true;
 			}
 		} else if (user instanceof Club) {
 			if (!clubs.contains(user)) {
+
+				if (user.getId().charAt(0) != 'C') {
+					user.setId("C"+ user.getId());
+				}
+				
 				clubs.add((Club) user);
 				return true;
 			}

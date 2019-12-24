@@ -86,12 +86,16 @@ public class ClubMenu extends Menu {
 		// Show list of players
 		incomingMsg = (String)receiveMessage();
 		System.out.println(incomingMsg);
+		
+		listOptions();
 	}
 	
 	private void searchAllForSale() {
 		// Show list of players
 		incomingMsg = (String)receiveMessage();
 		System.out.println(incomingMsg);
+		
+		listOptions();
 	}
 
 	private void suspendResumeSale() {
@@ -106,6 +110,8 @@ public class ClubMenu extends Menu {
 		System.out.println(incomingMsg);
 		outgoingMsg = console.next();
 		sendMessage(outgoingMsg);
+		
+		listOptions();
 	}
 
 	private void purchasePlayer() {
@@ -118,5 +124,7 @@ public class ClubMenu extends Menu {
 		// Display result
 		incomingMsg = (String)receiveMessage();
 		System.out.println(incomingMsg);
+		
+		listOptions();
 	}
 }
