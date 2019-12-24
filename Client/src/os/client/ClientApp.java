@@ -18,6 +18,11 @@ public class ClientApp {
 	private static ObjectOutputStream out;
 	private static ObjectInputStream in;
 	
+	private enum UserType {
+		CLUB,
+		AGENT
+	}
+	
 	private static final String IP_ADDRESS = "127.0.0.1";
 	private static final int PORT = 10000;
 	private static final Scanner console = new Scanner(System.in);
@@ -62,7 +67,7 @@ public class ClientApp {
 			
 			char action = outgoingMsg.toUpperCase().charAt(0);
 			Boolean success = false;
-			char userType;
+			UserType userType;
 			
 			do {
 				// Send user type (Agent or Club)
@@ -71,8 +76,8 @@ public class ClientApp {
 				outgoingMsg = console.next();
 				sendMessage(outgoingMsg);
 				
-				userType = outgoingMsg.toUpperCase().charAt(0);
-			
+				userType = outgoingMsg.toUpperCase().charAt(0) == 'A' ? UserType.AGENT : UserType.CLUB;
+				
 				// Send name
 				incomingMsg = (String)receiveMessage();
 				System.out.println(incomingMsg);
@@ -104,7 +109,7 @@ public class ClientApp {
 					
 					sendMessage(outgoingMsg);
 					
-					if (userType == 'C') {
+					if (userType == UserType.CLUB) {
 						// Send funds
 						incomingMsg = (String)receiveMessage();
 						System.out.println(incomingMsg);
@@ -125,7 +130,7 @@ public class ClientApp {
 			
 			// Display the menu
 			Menu menu;
-			if (userType == 'A') {
+			if (userType == UserType.AGENT) {
 				menu = new AgentMenu();
 			} else {
 				menu = new ClubMenu();
