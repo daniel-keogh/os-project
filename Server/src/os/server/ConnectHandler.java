@@ -64,10 +64,12 @@ public class ConnectHandler implements Runnable {
 
 			registerOrLogin();
 			
-			// One logged-in/registered, pass the current instance of ConnectHandler to the appropriate Menu.
+			// One logged-in/registered, get the rest of the user's info. & then pass the current instance of ConnectHandler to the appropriate Menu.
 			if (currentUser instanceof Agent) {
+				currentUser = sharedObj.getAgentFromID(currentUser.getId());
 				new AgentMenu(this).show();
 			} else {
+				currentUser = sharedObj.getClubFromID(currentUser.getId());
 				new ClubMenu(this).show();
 			}
 		} catch (IOException e) {

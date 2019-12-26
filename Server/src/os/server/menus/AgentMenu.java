@@ -7,17 +7,14 @@ import os.server.Shared;
 import os.server.players.Player;
 import os.server.players.PlayerStatus;
 import os.server.players.Position;
-import os.server.users.Agent;
 
 public class AgentMenu {
 	private ConnectHandler ch;
 	private Shared sharedObj;
-	private Agent currentUser;
 	
 	public AgentMenu(ConnectHandler ch) {
 		this.ch = ch;
 		sharedObj = ch.getSharedObject();
-		currentUser = sharedObj.getAgentFromID(ch.getCurrentUser().getId());
 	}
 
 	public void show() {
@@ -106,13 +103,12 @@ public class AgentMenu {
 			}
 
 			// The player's agent ID must match the current user's ID
-			if (!p.getAgentId().equalsIgnoreCase(currentUser.getId())) {
+			if (!p.getAgentId().equalsIgnoreCase(ch.getCurrentUser().getId())) {
 				throw new InvalidIdException("You do not represent "+ p.getName());
 			}
 			
 			// Update valuation
-			p.setValuation(valuation);
-			sharedObj.updatePlayerValuation(p);
+			sharedObj.updatePlayerValuation(p, valuation);
 			
 			ch.sendMessage("Valuation updated successfully");
 		} catch (NumberFormatException e) {
@@ -142,10 +138,9 @@ public class AgentMenu {
 			}
 			
 			// Update PlayerStatus
-			p.setStatus(ps);
-			sharedObj.updatePlayerStatus(p);
+			sharedObj.updatePlayerStatus(p, ps);
 			
-			ch.sendMessage("Updated player status successfully");
+			ch.sendMessage("Updated "+ p.getName() +"'s status successfully");
 		} catch (IllegalArgumentException e) {
 			ch.sendMessage("[Error] Invalid status entered");
 		} catch (InvalidIdException e) {

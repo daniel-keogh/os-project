@@ -19,7 +19,7 @@ public class ClubMenu {
 	public ClubMenu(ConnectHandler ch) {
 		this.ch = ch;
 		sharedObj = ch.getSharedObject();
-		usersClub = sharedObj.getClubFromID(ch.getCurrentUser().getId());
+		usersClub = (Club) ch.getCurrentUser();
 	}
 	
 	public void show() {
@@ -123,7 +123,7 @@ public class ClubMenu {
 			
 			sharedObj.purchasePlayer(usersClub, p);
 			
-			ch.sendMessage(p.getName() +" has been purchased by "+ usersClub.getName());
+			ch.sendMessage(p.getName() +" has been purchased by "+ usersClub.getName() + "\nYour remaining budget is: "+ usersClub.getFunds());
 		} catch (InsufficientFundsException | InvalidIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		}
