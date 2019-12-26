@@ -8,7 +8,6 @@ import os.server.players.Player;
 import os.server.players.PlayerStatus;
 import os.server.players.Position;
 import os.server.users.Agent;
-import os.server.users.Club;
 
 public class AgentMenu {
 	private ConnectHandler ch;
@@ -50,7 +49,7 @@ public class AgentMenu {
 		Player p = new Player();
 		p.setAgentId(ch.getCurrentUser().getId());
 		
-		ch.sendMessage("Adding Player...\n$ Enter player Name: ");
+		ch.sendMessage("Add Player...\n$ Enter player Name: ");
 		String name = ch.receiveMessage();
 		
 		ch.sendMessage("$ Enter player age: ");
@@ -68,12 +67,9 @@ public class AgentMenu {
 		ch.sendMessage("$ Enter player position (GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER): ");
 		String position = ch.receiveMessage();
 		
-		try {
-			Club c = new Club();
-			c.setId(clubId);
-			
+		try {		
 			// Make sure the entered Club ID exists
-			if (!sharedObj.getClubs().contains(c)) {
+			if (sharedObj.getClubFromID(clubId) == null) {
 				throw new InvalidIdException();
 			}
 			
@@ -95,7 +91,7 @@ public class AgentMenu {
 	}
 	
 	private void updatePlayerValuation() {
-		ch.sendMessage("Updating Player Valuation...\n$ Enter player ID: ");	
+		ch.sendMessage("Update Player Valuation...\n$ Enter player ID: ");	
 		String id = ch.receiveMessage();
 				
 		try {
@@ -108,15 +104,14 @@ public class AgentMenu {
 			if (p == null) {
 				throw new InvalidIdException();
 			}
+
+			// The player's agent ID must match the current user's ID
+			if (!p.getAgentId().equalsIgnoreCase(currentUser.getId())) {
+				throw new InvalidIdException("You do not represent "+ p.getName());
+			}
 			
 			// Update valuation
 			p.setValuation(valuation);
-
-			// The player's agent ID must match the current user's ID
-			if (p.getAgentId().equalsIgnoreCase(currentUser.getId())) {
-				throw new InvalidIdException("You do not represent this player");
-			}
-			
 			sharedObj.updatePlayerValuation(p);
 			
 			ch.sendMessage("Valuation updated successfully");
@@ -141,17 +136,16 @@ public class AgentMenu {
 				throw new InvalidIdException();
 			}
 			
-			// Update PlayerStatus
-			p.setStatus(ps);
-			
 			// The player's agent ID must match the current user's ID
-			if (p.getAgentId().equalsIgnoreCase(ch.getCurrentUser().getId())) {
-				throw new InvalidIdException("You do not represent this player");
+			if (!p.getAgentId().equalsIgnoreCase(ch.getCurrentUser().getId())) {
+				throw new InvalidIdException("You do not represent "+ p.getName());
 			}
 			
+			// Update PlayerStatus
+			p.setStatus(ps);
 			sharedObj.updatePlayerStatus(p);
 			
-			ch.sendMessage("Updated player status");
+			ch.sendMessage("Updated player status successfully");
 		} catch (IllegalArgumentException e) {
 			ch.sendMessage("[Error] Invalid status entered");
 		} catch (InvalidIdException e) {

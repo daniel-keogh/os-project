@@ -113,10 +113,10 @@ public class ClientApp {
 							sendMessage(outgoingMsg);
 							
 							// Get error message if there is one
-							if ((Boolean) receiveMessage()) {
-								break;
-							} else {
+							if (!((Boolean) receiveMessage())) {
 								System.out.println((String) receiveMessage());
+							} else {
+								break;
 							}
 						} while (true);
 					}

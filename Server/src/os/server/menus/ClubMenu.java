@@ -76,31 +76,28 @@ public class ClubMenu {
 	}
 
 	private void suspendResumeSale() {
-		Player p = new Player();
-		
 		ch.sendMessage("Suspend / Resume sale...\n$ Enter the player ID: ");
-		p.setPlayerId(ch.receiveMessage());
+		String id = ch.receiveMessage();
 		
 		try {			
 			ch.sendMessage("$ Enter the new player status (FOR_SALE, SALE_SUSPENDED): ");
 			PlayerStatus ps = PlayerStatus.valueOf(ch.receiveMessage().toUpperCase());
 			
-			if (!sharedObj.getPlayers().contains(p)) {
-				throw new InvalidIdException("The entered Player ID does not exist");
-			} else {
-				// Prevent the user from modifying other clubs players
-				for (Player player : sharedObj.getPlayers()) {
-					if (p.equals(player)) {
-						if (!usersClub.getId().equalsIgnoreCase(player.getClubId())) {
-							throw new InvalidIdException("That player does not belong to your club");
-						}
-					}
-				}
+			Player p = sharedObj.getPlayerFromID(id);
+			
+			if (p == null) {
+				throw new InvalidIdException();
+			}
+
+			// Prevent the user from modifying other clubs players
+			if (!usersClub.getId().equalsIgnoreCase(p.getClubId())) {
+				throw new InvalidIdException(p.getName() +" does not belong to your club");
 			}
 			
+			// Update status
 			sharedObj.suspendResumeSale(p, ps);
 			
-			ch.sendMessage("Updated player status");
+			ch.sendMessage("Updated player status successfully");
 		} catch (IllegalArgumentException e) { 
 			ch.sendMessage("[Error] Invalid status entered");
 		} catch (InvalidIdException e) {
@@ -121,7 +118,7 @@ public class ClubMenu {
 
 			// Prevent clubs from purchasing their own players.
 			if (p.getClubId().equalsIgnoreCase(usersClub.getId())) {
-				throw new InvalidIdException("You already own that player");
+				throw new InvalidIdException("You already own "+ p.getName());
 			}
 			
 			sharedObj.purchasePlayer(usersClub, p);

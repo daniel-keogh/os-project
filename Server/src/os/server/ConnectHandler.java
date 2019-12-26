@@ -89,28 +89,28 @@ public class ConnectHandler implements Runnable {
 		
 		do {
 			sendMessage("$ Do you want to Register (R) or Login (L):");
-			incomingMsg = (String) receiveMessage();
+			incomingMsg = receiveMessage();
 		} while (!incomingMsg.equalsIgnoreCase("L") && !incomingMsg.equalsIgnoreCase("R"));
 		
 		do {
 			sendMessage("$ Are you an agent (A) or a club (C)?");
-			if (((String) receiveMessage()).equalsIgnoreCase("A")) {
+			if (receiveMessage().equalsIgnoreCase("A")) {
 				currentUser = new Agent();
 			} else {
 				currentUser = new Club();
 			}
 
 			sendMessage("$ Enter name:");
-			currentUser.setName((String) receiveMessage());
+			currentUser.setName(receiveMessage());
 
 			sendMessage("$ Enter ID:");
-			currentUser.setId((String) receiveMessage());
+			currentUser.setId(receiveMessage());
 			
 			try {
 				// Extra steps needed before registering
 				if (incomingMsg.equalsIgnoreCase("R")) {
 					sendMessage("$ Enter email address:");
-					currentUser.setEmail((String) receiveMessage());
+					currentUser.setEmail(receiveMessage());
 					
 					if (currentUser instanceof Club) {
 						// Get funds
@@ -119,7 +119,7 @@ public class ConnectHandler implements Runnable {
 						do {
 							try {
 								sendMessage("$ Enter funds: ");
-								((Club) currentUser).setFunds(Double.parseDouble((String)receiveMessage()));
+								((Club) currentUser).setFunds(Double.parseDouble(receiveMessage()));
 								
 								isValidFunds = true;
 								sendMessage(isValidFunds);
