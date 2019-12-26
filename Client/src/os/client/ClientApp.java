@@ -30,7 +30,7 @@ public class ClientApp {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Object receiveMessage() {
 		try {
 			return in.readObject();
@@ -105,11 +105,20 @@ public class ClientApp {
 					sendMessage(outgoingMsg);
 					
 					if (userType == UserType.CLUB) {
-						// Send funds
-						incomingMsg = (String)receiveMessage();
-						System.out.println(incomingMsg);
-						outgoingMsg = console.next();
-						sendMessage(outgoingMsg);
+						do {
+							// Send funds
+							incomingMsg = (String)receiveMessage();
+							System.out.println(incomingMsg);
+							outgoingMsg = console.next();
+							sendMessage(outgoingMsg);
+							
+							// Get error message if there is one
+							if ((Boolean) receiveMessage()) {
+								break;
+							} else {
+								System.out.println((String) receiveMessage());
+							}
+						} while (true);
 					}
 				}
 				

@@ -6,12 +6,11 @@ import static os.client.ClientApp.receiveMessage;
 import static os.client.ClientApp.sendMessage;
 
 public class AgentMenu extends Menu {
-
 	private String incomingMsg;
 	private String outgoingMsg;
 	
 	private static final Scanner console = new Scanner(System.in);
-	
+
 	@Override
 	public void show() {
 		char option;
@@ -32,6 +31,7 @@ public class AgentMenu extends Menu {
 	}
 	
 	private void listOptions() {
+		System.out.println();
 		System.out.println("|==================================================|");
 		System.out.println("|                    Agent Menu                    |");
 		System.out.println("|==================================================|");
@@ -76,6 +76,7 @@ public class AgentMenu extends Menu {
 		incomingMsg = (String)receiveMessage();
 		System.out.println(incomingMsg);
 		outgoingMsg = console.next();
+		outgoingMsg += console.nextLine();
 		sendMessage(outgoingMsg);
 		
 		// Send player age
@@ -102,11 +103,15 @@ public class AgentMenu extends Menu {
 		outgoingMsg = console.next();
 		sendMessage(outgoingMsg);
 		
-		// Send player status
+		// Send player position
 		incomingMsg = (String)receiveMessage();
 		System.out.println(incomingMsg);
 		outgoingMsg = console.next();
 		sendMessage(outgoingMsg);
+		
+		// Get result (success/failure)
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
 		
 		listOptions();
 	}
@@ -124,6 +129,10 @@ public class AgentMenu extends Menu {
 		outgoingMsg = console.next();
 		sendMessage(outgoingMsg);
 		
+		// Get result (success/failure)
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		
 		listOptions();
 	}
 
@@ -140,12 +149,19 @@ public class AgentMenu extends Menu {
 		outgoingMsg = console.next();
 		sendMessage(outgoingMsg);
 		
+		// Get result (success/failure)
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		
 		listOptions();
 	}
 	
 	private void displayAllPlayers() {
 		incomingMsg = (String)receiveMessage();
-		System.out.println(incomingMsg);
+
+		for (String line : formatList(incomingMsg)) {
+			System.out.println(line);
+		}
 		
 		listOptions();
 	}

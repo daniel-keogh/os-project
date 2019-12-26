@@ -22,6 +22,17 @@ public class Player {
 		this.position = position;
 		this.status = status;
 	}
+	
+	public Player(Player p) {
+		playerId = p.playerId;
+		clubId = p.clubId;
+		agentId = p.agentId;
+		name = p.name;
+		age = p.age;
+		valuation = p.valuation;
+		position = p.position;
+		status = p.status;
+	}
 
 	public String getPlayerId() {
 		return playerId;

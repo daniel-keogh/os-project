@@ -6,7 +6,6 @@ import static os.client.ClientApp.receiveMessage;
 import static os.client.ClientApp.sendMessage;
 
 public class ClubMenu extends Menu {
-	
 	private String incomingMsg;
 	private String outgoingMsg;
 	
@@ -18,7 +17,7 @@ public class ClubMenu extends Menu {
 		boolean cont = true;
 		
 		listOptions();
-		
+	
 		do {
 			System.out.print("Select an option listed above: ");
 			option = console.next().charAt(0);
@@ -32,11 +31,12 @@ public class ClubMenu extends Menu {
 	}
 	
 	private void listOptions() {
+		System.out.println();
 		System.out.println("|==================================================|");
 		System.out.println("|                    Club  Menu                    |");
 		System.out.println("|==================================================|");
 		System.out.println("| A. Search Players by Position                    |");
-		System.out.println("| B. Search for For Sale Player in Club            |");
+		System.out.println("| B. Search for \"For Sale\" Players in Club         |");
 		System.out.println("| C. Suspend/Resume Sale                           |");
 		System.out.println("| D. Purchase Player                               |");
 		System.out.println("| E. Display All Players                           |");
@@ -85,7 +85,10 @@ public class ClubMenu extends Menu {
 		
 		// Show list of players
 		incomingMsg = (String)receiveMessage();
-		System.out.println(incomingMsg);
+
+		for (String line : formatList(incomingMsg)) {
+			System.out.println(line);
+		}
 		
 		listOptions();
 	}
@@ -93,7 +96,10 @@ public class ClubMenu extends Menu {
 	private void searchAllForSale() {
 		// Show list of players
 		incomingMsg = (String)receiveMessage();
-		System.out.println(incomingMsg);
+
+		for (String line : formatList(incomingMsg)) {
+			System.out.println(line);
+		}
 		
 		listOptions();
 	}
@@ -111,6 +117,10 @@ public class ClubMenu extends Menu {
 		outgoingMsg = console.next();
 		sendMessage(outgoingMsg);
 		
+		// Get result (success/failure)
+		incomingMsg = (String)receiveMessage();
+		System.out.println(incomingMsg);
+		
 		listOptions();
 	}
 
@@ -121,7 +131,7 @@ public class ClubMenu extends Menu {
 		outgoingMsg = console.next();
 		sendMessage(outgoingMsg);
 		
-		// Display result
+		// Get result (success/failure)
 		incomingMsg = (String)receiveMessage();
 		System.out.println(incomingMsg);
 		
@@ -130,7 +140,10 @@ public class ClubMenu extends Menu {
 	
 	private void displayAllPlayers() {
 		incomingMsg = (String)receiveMessage();
-		System.out.println(incomingMsg);
+
+		for (String line : formatList(incomingMsg)) {
+			System.out.println(line);
+		}
 		
 		listOptions();
 	}

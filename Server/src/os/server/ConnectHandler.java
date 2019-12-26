@@ -42,9 +42,9 @@ public class ConnectHandler implements Runnable {
 		}
 	}
 	
-	public Object receiveMessage() {
+	public String receiveMessage() {
 		try {
-			return in.readObject();
+			return (String) in.readObject();
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +64,7 @@ public class ConnectHandler implements Runnable {
 
 			registerOrLogin();
 			
-			// One logged-in/registered, pass the current instance of ConnectHandler to the appropriate Menu
+			// One logged-in/registered, pass the current instance of ConnectHandler to the appropriate Menu.
 			if (currentUser instanceof Agent) {
 				new AgentMenu(this).show();
 			} else {
@@ -114,8 +114,20 @@ public class ConnectHandler implements Runnable {
 					
 					if (currentUser instanceof Club) {
 						// Get funds
-						sendMessage("$ Enter funds: ");
-						((Club) currentUser).setFunds(Double.parseDouble((String)receiveMessage()));
+						boolean isValidFunds = false;
+						
+						do {
+							try {
+								sendMessage("$ Enter funds: ");
+								((Club) currentUser).setFunds(Double.parseDouble((String)receiveMessage()));
+								
+								isValidFunds = true;
+								sendMessage(isValidFunds);
+							} catch (NumberFormatException e) {
+								sendMessage(isValidFunds);
+								sendMessage("[Error] Invalid number format. Try again.");
+							}
+						} while (!isValidFunds);
 					}
 					
 					sharedObj.register(currentUser);	

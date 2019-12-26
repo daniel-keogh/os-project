@@ -17,21 +17,20 @@ import os.server.users.Agent;
 import os.server.users.Club;
 import os.server.users.User;
 
-public class Shared extends TimerTask {
+public class Shared {
 	private List<Player> players = new ArrayList<>();
 	private List<Agent> agents = new ArrayList<>();
 	private List<Club> clubs = new ArrayList<>();
 	private Timer saveListsTimer = new Timer();
 
+	private static final long BACKUP_FREQ = 120000;
 	private static final String CLUB_AGENTS_FILE = "club_agents.txt";
 	private static final String PLAYERS_FILE = "players.txt";
 
 	public Shared() throws FileNotFoundException {
 		loadPlayersList();
 		loadClubAgentsList();
-		
-		// Schedule to save the Lists to File every 2 mins
-		saveListsTimer.schedule(this, 120000, 120000);
+		scheduleBackup();
 	}
 	
 	public List<Player> getPlayers() {
@@ -45,23 +44,27 @@ public class Shared extends TimerTask {
 	public List<Club> getClubs() {
 		return new ArrayList<Club>(clubs);
 	}
-
-	@Override
-	public synchronized void run() {
-		System.out.println("Inside shared run method");
-		
-		try (PrintWriter outFile = new PrintWriter(PLAYERS_FILE)) {
-			players.forEach(player -> outFile.println(player));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		try (PrintWriter outFile = new PrintWriter(CLUB_AGENTS_FILE)) {
-			agents.forEach(agent -> outFile.println(agent));
-			clubs.forEach(club -> outFile.println(club));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+	
+	private synchronized void scheduleBackup() {		
+		saveListsTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				System.out.println("Backing up files...");
+				
+				try (PrintWriter outFile = new PrintWriter(PLAYERS_FILE)) {
+					players.forEach(player -> outFile.println(player));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				
+				try (PrintWriter outFile = new PrintWriter(CLUB_AGENTS_FILE)) {
+					agents.forEach(agent -> outFile.println(agent));
+					clubs.forEach(club -> outFile.println(club));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}, BACKUP_FREQ, BACKUP_FREQ);
 	}
 
 	private synchronized void loadPlayersList() throws FileNotFoundException {
@@ -113,7 +116,8 @@ public class Shared extends TimerTask {
 		List<? extends User> temp = (user instanceof Agent) ? agents : clubs;
 		
 		// Login is based on both the User's ID and their name
-		boolean isValidLogin = temp.contains(user) && temp.get(temp.indexOf(user)).getName().equalsIgnoreCase(user.getName());
+		boolean isValidLogin = temp.contains(user) && 
+				temp.get(temp.indexOf(user)).getName().equalsIgnoreCase(user.getName());
 	
 		if (!isValidLogin) {
 			throw new FailedLoginException("User ID or name is incorrect.");
@@ -121,10 +125,11 @@ public class Shared extends TimerTask {
 	}
 
 	public synchronized void register(User user) throws FailedRegistrationException {
-		
 		if (agents.contains(user) || clubs.contains(user)) {
 			throw new FailedRegistrationException("A user with ID "+ user.getId() +" already exists.");
 		}
+		
+		user.setName(user.getName().replaceAll(" ", "_"));
 		
 		if (user instanceof Agent) {
 			if (user.getId().charAt(0) != 'A') {
@@ -140,11 +145,28 @@ public class Shared extends TimerTask {
 			clubs.add((Club) user);
 		}
 	}
+	
+	public synchronized String getPlayersClubId(Player p) {
+		if (players.contains(p)) {
+			return players.get(players.indexOf(p)).getClubId();	
+		}
+		
+		return null;
+	}
+	
+	public synchronized String getPlayersAgentId(Player p) {
+		if (players.contains(p)) {
+			return players.get(players.indexOf(p)).getAgentId();	
+		}
+		
+		return null;
+	}
 
 	public synchronized void addPlayer(Player p) {
+		// Randomly generate player ID
 		Integer rand = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
 		
-		p.setPlayerId("P" + rand);
+		p.setPlayerId("P" + rand).setName(p.getName().replaceAll(" ", "_"));
 		players.add(p);
 	}
 
@@ -167,11 +189,11 @@ public class Shared extends TimerTask {
 		}
 	}
 	
-	public synchronized List<Player> searchAllByPosition(Club c, Position pos) {
+	public synchronized List<Player> searchAllByPosition(Position pos) {
 		List<Player> temp = new ArrayList<>();
 		
 		players.forEach(p -> {
-			if (p.getPosition().equals(pos) && p.getClubId().equalsIgnoreCase(c.getId())) {
+			if (p.getPosition().equals(pos)) {
 				temp.add(p);
 			}
 		});
@@ -192,12 +214,17 @@ public class Shared extends TimerTask {
 	}
 
 	public synchronized void suspendResumeSale(Player p, PlayerStatus ps) {
+		if (ps == PlayerStatus.SOLD) {
+			throw new IllegalArgumentException();
+		}
+		
 		players.get(players.indexOf(p)).setStatus(ps);
 	}
 
-	public synchronized void purchasePlayer(Club c, Player p) throws InsufficientFundsException {
-		if (c.getFunds() < p.getValuation()) {
-			throw new InsufficientFundsException(c, p);
+	// TODO fix this 
+	public synchronized void purchasePlayer(Club buyer, Player p) throws InsufficientFundsException {
+		if (buyer.getFunds() < p.getValuation()) {
+			throw new InsufficientFundsException(buyer, p);
 		}
 		
 		// Update selling clubs funds
@@ -206,8 +233,8 @@ public class Shared extends TimerTask {
 		seller = clubs.get(clubs.indexOf(seller));
 		seller.setFunds(seller.getFunds() + p.getValuation());
 		
-		c.setFunds(c.getFunds() - p.getValuation());
+		buyer.setFunds(buyer.getFunds() - p.getValuation());
 		p.setStatus(PlayerStatus.SOLD);
-		p.setClubId(c.getId());
+		p.setClubId(buyer.getId());
 	}
 }
