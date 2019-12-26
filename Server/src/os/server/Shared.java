@@ -109,7 +109,7 @@ public class Shared {
 		inFile.close();
 	}
 
-	public synchronized void login(User user) throws FailedLoginException {
+	public synchronized void login(User user) {
 		user.setId(user.getId().toUpperCase());
 		user.setName(user.getName().replaceAll(" ", "_"));
 		
@@ -120,13 +120,13 @@ public class Shared {
 				temp.get(temp.indexOf(user)).getName().equalsIgnoreCase(user.getName());
 	
 		if (!isValidLogin) {
-			throw new FailedLoginException("User ID or name is incorrect.");
+			throw new IllegalArgumentException("User ID or name is incorrect.");
 		}
 	}
 
-	public synchronized void register(User user) throws FailedRegistrationException {
+	public synchronized void register(User user) {
 		if (agents.contains(user) || clubs.contains(user)) {
-			throw new FailedRegistrationException("A user with ID "+ user.getId() +" already exists.");
+			throw new IllegalArgumentException("A user with ID "+ user.getId() +" already exists.");
 		}
 		
 		user.setName(user.getName().replaceAll(" ", "_"));

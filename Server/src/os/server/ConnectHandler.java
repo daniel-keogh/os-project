@@ -137,7 +137,7 @@ public class ConnectHandler implements Runnable {
 				
 				success = true;
 				sendMessage(success);
-			} catch (FailedLoginException | FailedRegistrationException e) {
+			} catch (IllegalArgumentException e) {
 				sendMessage(success);
 				sendMessage(e.getMessage());
 			}
