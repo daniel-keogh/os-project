@@ -34,21 +34,19 @@ public class Shared {
 	}
 	
 	public List<Player> getPlayers() {
-		return new ArrayList<Player>(players);
+		return new ArrayList<>(players);
 	}
 	
 	public List<Agent> getAgents() {
-		return new ArrayList<Agent>(agents);
+		return new ArrayList<>(agents);
 	}
 
 	public List<Club> getClubs() {
-		return new ArrayList<Club>(clubs);
+		return new ArrayList<>(clubs);
 	}
 	
 	/**
-	 * Schedules a TimerTask to carry out a backup of the player and club_agents text files every couple of minutes.
-	 * 
-	 * @see TimerTask
+	 * Schedules a {@link TimerTask} to carry out a backup of the player and club_agents text files every couple of minutes.
 	 */
 	private synchronized void scheduleBackup() {		
 		saveListsTimer.schedule(new TimerTask() {
@@ -57,14 +55,14 @@ public class Shared {
 				System.out.println("Backing up files...");
 				
 				try (PrintWriter outFile = new PrintWriter(PLAYERS_FILE)) {
-					players.forEach(player -> outFile.println(player));
+					players.forEach(outFile::println);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
-				
+
 				try (PrintWriter outFile = new PrintWriter(CLUB_AGENTS_FILE)) {
-					agents.forEach(agent -> outFile.println(agent));
-					clubs.forEach(club -> outFile.println(club));
+					agents.forEach(outFile::println);
+					clubs.forEach(outFile::println);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -75,7 +73,7 @@ public class Shared {
 	/**
 	 * Reads the players.txt file and adds each entry to the players ArrayList.
 	 * 
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException If the text file isn't found
 	 */
 	private synchronized void loadPlayersList() throws FileNotFoundException {
 		Scanner inFile = new Scanner(new FileReader(PLAYERS_FILE));
@@ -102,7 +100,7 @@ public class Shared {
 	/**
 	 * Reads the club_agents.txt file and adds each club/agent to their corresponding list.
 	 * 
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException If the text file isn't found
 	 */
 	private synchronized void loadClubAgentsList() throws FileNotFoundException {
 		Scanner inFile = new Scanner(new FileReader(CLUB_AGENTS_FILE));
@@ -238,22 +236,10 @@ public class Shared {
 	 */
 	public synchronized void addPlayer(Player p) {
 		// Randomly generate player ID
-		Integer rand = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
+		int rand = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
 		
 		p.setPlayerId("P" + rand).setName(p.getName().replaceAll(" ", "_"));
 		players.add(p);
-	}
-
-	/**
-	 * Adds a new agent to the agents List. A capital 'A' is appended to the ID if not present already.
-	 * 
-	 * @param agent - The agent to add.
-	 */
-	public synchronized void addAgent(Agent agent) {
-		if (agent.getId().charAt(0) != 'A') {
-			agent.setId("A" + agent.getId());
-		}
-		agents.add(agent);
 	}
 	
 	/**
