@@ -5,14 +5,14 @@ public class Club extends User {
 	
 	public Club() { }
 	
-	public Club(String name, String id, String email, double funds) {
-		super(name, id, email);
-		this.funds = funds;
-	}
-	
 	public Club(Club c) { 
 		super(c);
 		funds = c.funds;
+	}
+	
+	public Club(String name, String id, String email, double funds) {
+		super(name, id, email);
+		this.funds = funds;
 	}
 	
 	public double getFunds() {

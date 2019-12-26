@@ -242,23 +242,23 @@ public class Shared {
 	}
 
 	public synchronized void purchasePlayer(Club buyer, Player p) throws InsufficientFundsException {
-		System.out.println(p);
-		System.out.println(buyer);
 		if (buyer.getFunds() < p.getValuation()) {
 			throw new InsufficientFundsException(buyer, p);
 		}
 		
 		// Update selling clubs funds
 		Club seller = new Club();
-		seller.setId(p.getClubId());
+		seller.setId(p.getClubId());	
 		seller = clubs.get(clubs.indexOf(seller));
 		seller.setFunds(seller.getFunds() + p.getValuation());
 		
 		// Update purchasing clubs funds
 		buyer.setFunds(buyer.getFunds() - p.getValuation());
+		clubs.set(clubs.indexOf(buyer), buyer);
 		
 		// Update the player's status and club ID
 		p.setStatus(PlayerStatus.SOLD);
 		p.setClubId(buyer.getId());
+		players.set(players.indexOf(p), p);
 	}
 }

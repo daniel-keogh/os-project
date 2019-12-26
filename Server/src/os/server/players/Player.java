@@ -12,17 +12,6 @@ public class Player {
 	
 	public Player() { }
 
-	public Player(String playerId, String clubId, String agentId, String name, int age, double valuation, Position position, PlayerStatus status) {
-		this.playerId = playerId;
-		this.clubId = clubId;
-		this.agentId = agentId;
-		this.name = name;
-		this.age = age;
-		this.valuation = valuation;
-		this.position = position;
-		this.status = status;
-	}
-	
 	public Player(Player p) {
 		playerId = p.playerId;
 		clubId = p.clubId;
@@ -32,6 +21,17 @@ public class Player {
 		valuation = p.valuation;
 		position = p.position;
 		status = p.status;
+	}
+	
+	public Player(String playerId, String clubId, String agentId, String name, int age, double valuation, Position position, PlayerStatus status) {
+		this.playerId = playerId;
+		this.clubId = clubId;
+		this.agentId = agentId;
+		this.name = name;
+		this.age = age;
+		this.valuation = valuation;
+		this.position = position;
+		this.status = status;
 	}
 
 	public String getPlayerId() {
