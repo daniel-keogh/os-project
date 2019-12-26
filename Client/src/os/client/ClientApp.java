@@ -14,7 +14,7 @@ public class ClientApp {
 	private Socket connection;
 	private String incomingMsg;
 	private String outgoingMsg;
-	
+
 	private static ObjectOutputStream out;
 	private static ObjectInputStream in;
 	
@@ -127,7 +127,7 @@ public class ClientApp {
 				
 				// Get appropriate error message if there is one
 				if (!success) {
-					System.out.println("[Error] "+ (String) receiveMessage());
+					System.out.println("[Error] "+ receiveMessage());
 				} else {
 					System.out.println(userAction.getAction() + " successful.");
 				}

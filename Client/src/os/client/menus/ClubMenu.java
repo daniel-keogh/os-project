@@ -14,7 +14,7 @@ public class ClubMenu extends Menu {
 	@Override
 	public void show() {
 		char option;
-		boolean cont = true;
+		boolean cont;
 		
 		listOptions();
 	
@@ -32,16 +32,16 @@ public class ClubMenu extends Menu {
 	
 	private void listOptions() {
 		System.out.println();
-		System.out.println("|==================================================|");
+		System.out.println("====================================================");
 		System.out.println("|                    Club  Menu                    |");
-		System.out.println("|==================================================|");
+		System.out.println("====================================================");
 		System.out.println("| A. Search Players by Position                    |");
 		System.out.println("| B. Search for \"For Sale\" Players in Club         |");
 		System.out.println("| C. Suspend/Resume Sale                           |");
 		System.out.println("| D. Purchase Player                               |");
 		System.out.println("| E. Display All Players                           |");
 		System.out.println("| Q. Logout                                        |");
-		System.out.println("|==================================================|");
+		System.out.println("====================================================");
 	}
 	
 	private boolean handleOption(char option) {
@@ -86,6 +86,7 @@ public class ClubMenu extends Menu {
 		// Show list of players
 		incomingMsg = (String)receiveMessage();
 
+		System.out.println(getPlayerTableHeading());
 		for (String line : formatList(incomingMsg)) {
 			System.out.println(line);
 		}
@@ -97,6 +98,7 @@ public class ClubMenu extends Menu {
 		// Show list of players
 		incomingMsg = (String)receiveMessage();
 
+		System.out.println(getPlayerTableHeading());
 		for (String line : formatList(incomingMsg)) {
 			System.out.println(line);
 		}
@@ -141,6 +143,7 @@ public class ClubMenu extends Menu {
 	private void displayAllPlayers() {
 		incomingMsg = (String)receiveMessage();
 
+		System.out.println(getPlayerTableHeading());
 		for (String line : formatList(incomingMsg)) {
 			System.out.println(line);
 		}

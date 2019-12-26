@@ -14,7 +14,7 @@ public class AgentMenu extends Menu {
 	@Override
 	public void show() {
 		char option;
-		boolean cont = true;
+		boolean cont;
 
 		listOptions();
 
@@ -32,15 +32,15 @@ public class AgentMenu extends Menu {
 	
 	private void listOptions() {
 		System.out.println();
-		System.out.println("|==================================================|");
+		System.out.println("====================================================");
 		System.out.println("|                    Agent Menu                    |");
-		System.out.println("|==================================================|");
+		System.out.println("====================================================");
 		System.out.println("| A. Add Player                                    |");
 		System.out.println("| B. Update Player Valuation                       |");
 		System.out.println("| C. Update Player Status                          |");
 		System.out.println("| D. Display All Players                           |");
 		System.out.println("| Q. Logout                                        |");
-		System.out.println("|==================================================|");
+		System.out.println("====================================================");
 	}
 
 	private boolean handleOption(char option) {
@@ -159,6 +159,8 @@ public class AgentMenu extends Menu {
 	private void displayAllPlayers() {
 		incomingMsg = (String)receiveMessage();
 
+		System.out.println(getPlayerTableHeading());
+		
 		for (String line : formatList(incomingMsg)) {
 			System.out.println(line);
 		}

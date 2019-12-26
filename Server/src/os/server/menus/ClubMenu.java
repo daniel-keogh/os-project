@@ -1,6 +1,5 @@
 package os.server.menus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import os.server.ConnectHandler;
@@ -51,7 +50,7 @@ public class ClubMenu {
 	}
 
 	private void searchAllByPosition() {
-		List<Player> temp = new ArrayList<>();
+		List<Player> temp;
 		
 		ch.sendMessage("Search all by position...\n$ Enter position (GOALKEEPER, DEFENDER, MIDFIELDED, ATTACKER): ");
 		
@@ -64,7 +63,7 @@ public class ClubMenu {
 				ch.sendMessage(temp.toString());
 				return;
 			}
-		} catch (IllegalArgumentException e) { }
+		} catch (IllegalArgumentException ignored) { }
 		
 		ch.sendMessage("No players found for that position");
 	}
@@ -72,7 +71,7 @@ public class ClubMenu {
 	private void searchAllForSale() {			
 		List<Player> temp = sharedObj.searchAllForSale(usersClub);
 		
-		ch.sendMessage("Search all for sale...\n"+ (temp.size() == 0 ? "No players found" : temp.toString()));
+		ch.sendMessage((temp.size() == 0 ? "No players found..." : temp.toString()));
 	}
 
 	private void suspendResumeSale() {
