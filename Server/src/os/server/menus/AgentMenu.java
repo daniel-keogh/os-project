@@ -7,15 +7,18 @@ import os.server.Shared;
 import os.server.players.Player;
 import os.server.players.PlayerStatus;
 import os.server.players.Position;
+import os.server.users.Agent;
 import os.server.users.Club;
 
 public class AgentMenu {
 	private ConnectHandler ch;
 	private Shared sharedObj;
+	private Agent currentUser;
 	
 	public AgentMenu(ConnectHandler ch) {
 		this.ch = ch;
 		sharedObj = ch.getSharedObject();
+		currentUser = sharedObj.getAgentFromID(ch.getCurrentUser().getId());
 	}
 
 	public void show() {
@@ -47,7 +50,7 @@ public class AgentMenu {
 		Player p = new Player();
 		p.setAgentId(ch.getCurrentUser().getId());
 		
-		ch.sendMessage("Add Player...\n$ Enter player Name: ");
+		ch.sendMessage("Adding Player...\n$ Enter player Name: ");
 		String name = ch.receiveMessage();
 		
 		ch.sendMessage("$ Enter player age: ");
@@ -85,28 +88,32 @@ public class AgentMenu {
 			
 			ch.sendMessage("Player added successfully");
 		} catch (IllegalArgumentException e) {
-			ch.sendMessage("[Error] The server encountered an error trying to add that player.");
+			ch.sendMessage("[Error] The server encountered an error trying to add that player. Make sure all details entered are correct.");
 		} catch (InvalidIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		}
 	}
 	
 	private void updatePlayerValuation() {
-		Player p = new Player();
-		
-		ch.sendMessage("Update Player Valuation...\n$ Enter player ID: ");
-		p.setPlayerId(ch.receiveMessage());
-		
+		ch.sendMessage("Updating Player Valuation...\n$ Enter player ID: ");	
+		String id = ch.receiveMessage();
+				
 		try {
 			ch.sendMessage("$ Enter new player valuation: ");
-			p.setValuation(Double.parseDouble(ch.receiveMessage()));
+			double valuation = Double.parseDouble(ch.receiveMessage());
 			
-			// Make sure player ID exists
-			if (!sharedObj.getPlayers().contains(p)) {
+			Player p = sharedObj.getPlayerFromID(id);
+			
+			// getPlayerFromID will return null if id doesn't exist.
+			if (p == null) {
 				throw new InvalidIdException();
 			}
 			
-			if (!sharedObj.getPlayersAgentId(p).equalsIgnoreCase(ch.getCurrentUser().getId())) {
+			// Update valuation
+			p.setValuation(valuation);
+
+			// The player's agent ID must match the current user's ID
+			if (p.getAgentId().equalsIgnoreCase(currentUser.getId())) {
 				throw new InvalidIdException("You do not represent this player");
 			}
 			
@@ -121,20 +128,24 @@ public class AgentMenu {
 	}
 	
 	private void updatePlayerStatus() {
-		Player p = new Player();
-		
 		ch.sendMessage("Update Player Status...\n$ Enter player ID: ");
-		p.setPlayerId(ch.receiveMessage());
+		String id = ch.receiveMessage();
 		
 		try {
 			ch.sendMessage("$ Enter new player status (FOR_SALE, SOLD, SALE_SUSPENDED): ");
-			p.setStatus(PlayerStatus.valueOf(ch.receiveMessage().toUpperCase()));
+			PlayerStatus ps = PlayerStatus.valueOf(ch.receiveMessage().toUpperCase());
 			
-			if (!sharedObj.getPlayers().contains(p)) {
+			Player p = sharedObj.getPlayerFromID(id);
+			
+			if (p == null) {
 				throw new InvalidIdException();
 			}
 			
-			if (!sharedObj.getPlayersAgentId(p).equalsIgnoreCase(ch.getCurrentUser().getId())) {
+			// Update PlayerStatus
+			p.setStatus(ps);
+			
+			// The player's agent ID must match the current user's ID
+			if (p.getAgentId().equalsIgnoreCase(ch.getCurrentUser().getId())) {
 				throw new InvalidIdException("You do not represent this player");
 			}
 			

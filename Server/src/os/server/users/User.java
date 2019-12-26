@@ -7,6 +7,12 @@ public abstract class User {
 	
 	public User() { }
 	
+	public User(User u) {
+		name = u.name;
+		id = u.id;
+		email = u.email;
+	}
+	
 	public User(String name, String id, String email) {
 		this.name = name;
 		this.id = id;

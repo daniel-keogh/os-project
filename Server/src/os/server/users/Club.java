@@ -10,6 +10,11 @@ public class Club extends User {
 		this.funds = funds;
 	}
 	
+	public Club(Club c) { 
+		super(c);
+		funds = c.funds;
+	}
+	
 	public double getFunds() {
 		return funds;
 	}

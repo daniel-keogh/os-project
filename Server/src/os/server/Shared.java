@@ -146,17 +146,37 @@ public class Shared {
 		}
 	}
 	
-	public synchronized String getPlayersClubId(Player p) {
+	public synchronized Player getPlayerFromID(String id) {
+		Player p = new Player();
+		p.setPlayerId(id);
+		
 		if (players.contains(p)) {
-			return players.get(players.indexOf(p)).getClubId();	
+			p = new Player(players.get(players.indexOf(p)));
+			return p;
 		}
 		
 		return null;
 	}
 	
-	public synchronized String getPlayersAgentId(Player p) {
-		if (players.contains(p)) {
-			return players.get(players.indexOf(p)).getAgentId();	
+	public synchronized Club getClubFromID(String id) {
+		Club c = new Club();
+		c.setId(id);
+		
+		if (clubs.contains(c)) {
+			c = new Club(clubs.get(clubs.indexOf(c)));
+			return c;
+		}
+		
+		return null;
+	}
+	
+	public synchronized Agent getAgentFromID(String id) {
+		Agent a = new Agent();
+		a.setId(id);
+		
+		if (agents.contains(a)) {
+			a = new Agent(agents.get(agents.indexOf(a)));
+			return a;
 		}
 		
 		return null;
@@ -221,8 +241,9 @@ public class Shared {
 		players.get(players.indexOf(p)).setStatus(ps);
 	}
 
-	// TODO fix this 
 	public synchronized void purchasePlayer(Club buyer, Player p) throws InsufficientFundsException {
+		System.out.println(p);
+		System.out.println(buyer);
 		if (buyer.getFunds() < p.getValuation()) {
 			throw new InsufficientFundsException(buyer, p);
 		}
@@ -233,7 +254,10 @@ public class Shared {
 		seller = clubs.get(clubs.indexOf(seller));
 		seller.setFunds(seller.getFunds() + p.getValuation());
 		
+		// Update purchasing clubs funds
 		buyer.setFunds(buyer.getFunds() - p.getValuation());
+		
+		// Update the player's status and club ID
 		p.setStatus(PlayerStatus.SOLD);
 		p.setClubId(buyer.getId());
 	}

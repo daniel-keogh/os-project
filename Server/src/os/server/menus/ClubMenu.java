@@ -13,13 +13,13 @@ import os.server.users.Club;
 
 public class ClubMenu {
 	private ConnectHandler ch;
-	private Club usersClub;
 	private Shared sharedObj;
+	private Club usersClub;
 	
 	public ClubMenu(ConnectHandler ch) {
 		this.ch = ch;
-		usersClub = (Club) ch.getCurrentUser();
 		sharedObj = ch.getSharedObject();
+		usersClub = sharedObj.getClubFromID(ch.getCurrentUser().getId());
 	}
 	
 	public void show() {
@@ -109,22 +109,23 @@ public class ClubMenu {
 	}
 
 	private void purchasePlayer() {
-		Player p = new Player();
-		
 		ch.sendMessage("Purchase player...\n$ Enter player ID: ");
-		p.setPlayerId(ch.receiveMessage());
-		p.setClubId(sharedObj.getPlayersClubId(p));
+		String id = ch.receiveMessage();
 		
 		try {
-			if (!sharedObj.getPlayers().contains(p)) {
-				throw new InvalidIdException("The entered Player ID does not exist");
+			Player p = sharedObj.getPlayerFromID(id);
+			
+			if (p == null) {
+				throw new InvalidIdException();
 			}
 
+			// Prevent clubs from purchasing their own players.
 			if (p.getClubId().equalsIgnoreCase(usersClub.getId())) {
 				throw new InvalidIdException("You already own that player");
 			}
 			
 			sharedObj.purchasePlayer(usersClub, p);
+			
 			ch.sendMessage(p.getName() +" has been purchased by "+ usersClub.getName());
 		} catch (InsufficientFundsException | InvalidIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
