@@ -3,6 +3,9 @@ package os.server;
 import os.server.players.Player;
 import os.server.users.Club;
 
+/**
+ * Thrown to indicate that a Club doesn't have enough funds to complete the purchase of a Player.
+ */
 public class InsufficientFundsException extends Exception {
 	private static final long serialVersionUID = 7005406086109096584L;
 
