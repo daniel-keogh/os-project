@@ -1,4 +1,4 @@
-package os.server.players;
+package os.server.player;
 
 public enum Position {
 	GOALKEEPER,

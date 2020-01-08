@@ -4,9 +4,9 @@ import java.util.List;
 
 import os.server.ConnectHandler;
 import os.server.Shared;
-import os.server.players.Player;
-import os.server.players.PlayerStatus;
-import os.server.players.Position;
+import os.server.player.Player;
+import os.server.player.PlayerStatus;
+import os.server.player.Position;
 
 public class AgentMenu extends Menu {
 	private ConnectHandler ch;

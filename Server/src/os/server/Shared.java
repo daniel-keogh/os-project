@@ -10,9 +10,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
-import os.server.players.Player;
-import os.server.players.PlayerStatus;
-import os.server.players.Position;
+import os.server.player.Player;
+import os.server.player.PlayerStatus;
+import os.server.player.Position;
 import os.server.users.Agent;
 import os.server.users.Club;
 import os.server.users.User;

@@ -1,6 +1,6 @@
 package os.server;
 
-import os.server.players.Player;
+import os.server.player.Player;
 import os.server.users.Club;
 
 /**

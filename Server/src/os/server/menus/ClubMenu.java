@@ -5,9 +5,9 @@ import java.util.List;
 import os.server.ConnectHandler;
 import os.server.InsufficientFundsException;
 import os.server.Shared;
-import os.server.players.Player;
-import os.server.players.PlayerStatus;
-import os.server.players.Position;
+import os.server.player.Player;
+import os.server.player.PlayerStatus;
+import os.server.player.Position;
 import os.server.users.Club;
 
 public class ClubMenu extends Menu {
