@@ -14,21 +14,21 @@ public class Main {
 		try (ServerSocket listener = new ServerSocket(PORT, BACKLOG)) {	 
 			Shared sharedObj = new Shared();
 			
-			 while (true) {
+			while (true) {
 				System.out.println(String.format("Main thread listening on port %d for incoming new connections...", PORT));
 				
-				Socket newconnection = listener.accept();
+				Socket newConnection = listener.accept();
 				
 				System.out.println("New connection received and spanning a thread...");
 				
-				Runnable ch = new ConnectHandler(newconnection, clientId, sharedObj);
+				Runnable ch = new ConnectHandler(newConnection, clientId, sharedObj);
 				Thread t = new Thread(ch);
 				t.start();
 				
 				clientId++;
-			 }
+			}
 		} catch (IOException e) {
-			System.out.println("Socket not opened.");
+			System.out.println("[Error] Socket not opened.");
 			e.printStackTrace();
 		}
 	}

@@ -8,7 +8,7 @@ import os.server.players.Player;
 import os.server.players.PlayerStatus;
 import os.server.players.Position;
 
-public class AgentMenu {
+public class AgentMenu extends Menu {
 	private ConnectHandler ch;
 	private Shared sharedObj;
 	
@@ -17,6 +17,7 @@ public class AgentMenu {
 		sharedObj = ch.getSharedObject();
 	}
 
+	@Override
 	public void show() {
 		String option;
 		

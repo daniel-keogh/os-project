@@ -10,7 +10,7 @@ import os.server.players.PlayerStatus;
 import os.server.players.Position;
 import os.server.users.Club;
 
-public class ClubMenu {
+public class ClubMenu extends Menu {
 	private ConnectHandler ch;
 	private Shared sharedObj;
 	private Club usersClub;
@@ -21,6 +21,7 @@ public class ClubMenu {
 		usersClub = (Club) ch.getCurrentUser();
 	}
 	
+	@Override
 	public void show() {
 		String option;
 		
