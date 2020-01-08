@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import os.server.menus.AgentMenu;
 import os.server.menus.ClubMenu;
+import os.server.menus.Menu;
 import os.server.users.Agent;
 import os.server.users.Club;
 import os.server.users.User;
@@ -66,13 +67,16 @@ public class ConnectHandler implements Runnable {
 			
 			// One logged-in/registered, get the rest of the user's info. and
 			// then pass the current instance of ConnectHandler to the appropriate Menu.
+			Menu menu;
 			if (currentUser instanceof Agent) {
 				currentUser = sharedObj.getAgentFromID(currentUser.getId());
-				new AgentMenu(this).show();
+				menu = new AgentMenu(this);
 			} else {
 				currentUser = sharedObj.getClubFromID(currentUser.getId());
-				new ClubMenu(this).show();
+				menu = new ClubMenu(this);
 			}
+			
+			menu.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

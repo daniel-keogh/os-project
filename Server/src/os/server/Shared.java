@@ -23,7 +23,7 @@ public class Shared {
 	private List<Club> clubs = new ArrayList<>();
 	private Timer saveListsTimer = new Timer();
 
-	private static final long BACKUP_FREQ = 120000;
+	private static final long BACKUP_FREQ = 120000; // 3 mins
 	private static final String CLUB_AGENTS_FILE = "club_agents.txt";
 	private static final String PLAYERS_FILE = "players.txt";
 
@@ -104,17 +104,18 @@ public class Shared {
 	 */
 	private synchronized void loadClubAgentsList() throws FileNotFoundException {
 		Scanner inFile = new Scanner(new FileReader(CLUB_AGENTS_FILE));
-		String id;
+		String userType;
 		User u;
 
 		while (inFile.hasNext()) {
-			id = inFile.next();
+			// The first character indicates what kind of User they are (A for agent, C for club).
+			userType = inFile.next();
 
-			if (id.charAt(0) == 'A') {
-				u = new Agent(inFile.next(), id, inFile.next());
+			if (userType.equalsIgnoreCase("A")) {
+				u = new Agent(inFile.next(), inFile.next(), inFile.next());
 				agents.add((Agent) u);
-			} else if (id.charAt(0) == 'C') {
-				u = new Club(inFile.next(), id, inFile.next(), inFile.nextDouble());
+			} else if (userType.equalsIgnoreCase("C")) {
+				u = new Club(inFile.next(), inFile.next(), inFile.next(), inFile.nextDouble());
 				clubs.add((Club) u);
 			}
 		}
@@ -126,7 +127,6 @@ public class Shared {
 	 * Check the given user's credentials and try to log them in.
 	 * 
 	 * @param user - The user to log-in
-	 * 
 	 * @throws IllegalArgumentException If the user's ID and/or name is incorrect
 	 */
 	public synchronized void login(User user) {
@@ -150,7 +150,6 @@ public class Shared {
 	 * If not, the appropriate letter will be appended to the ID given.
 	 * 
 	 * @param user - The user to register
-	 * 
 	 * @throws IllegalArgumentException If the User's ID is already registered
 	 */
 	public synchronized void register(User user) {
@@ -161,16 +160,8 @@ public class Shared {
 		user.setName(user.getName().replaceAll(" ", "_"));
 		
 		if (user instanceof Agent) {
-			if (user.getId().charAt(0) != 'A') {
-				user.setId("A"+ user.getId());
-			}
-			
 			agents.add((Agent) user);
 		} else {
-			if (user.getId().charAt(0) != 'C') {
-				user.setId("C"+ user.getId());
-			}
-			
 			clubs.add((Club) user);
 		}
 	}
@@ -179,15 +170,14 @@ public class Shared {
 	 * Gets a copy of a Player with the given ID.
 	 * 
 	 * @param id - The ID to search for
-	 * @return The Player with the given ID
+	 * @return The Player with the given ID or null if the Player wasn't found
 	 */
 	public synchronized Player getPlayerFromID(String id) {
 		Player p = new Player();
 		p.setPlayerId(id);
 		
 		if (players.contains(p)) {
-			p = new Player(players.get(players.indexOf(p)));
-			return p;
+			return new Player(players.get(players.indexOf(p)));
 		}
 		
 		return null;
@@ -197,15 +187,14 @@ public class Shared {
 	 * Gets a copy of a Club with the given ID.
 	 * 
 	 * @param id - The ID to search for
-	 * @return The Club with the given ID
+	 * @return The Club with the given ID or null if the Club wasn't found
 	 */
 	public synchronized Club getClubFromID(String id) {
 		Club c = new Club();
 		c.setId(id);
 		
 		if (clubs.contains(c)) {
-			c = new Club(clubs.get(clubs.indexOf(c)));
-			return c;
+			return new Club(clubs.get(clubs.indexOf(c)));
 		}
 		
 		return null;
@@ -215,15 +204,14 @@ public class Shared {
 	 * Gets a copy of a Agent with the given ID.
 	 * 
 	 * @param id - The ID to search for
-	 * @return The Agent with the given ID
+	 * @return The Agent with the given ID or null if the Agent wasn't found
 	 */
 	public synchronized Agent getAgentFromID(String id) {
 		Agent a = new Agent();
 		a.setId(id);
 		
 		if (agents.contains(a)) {
-			a = new Agent(agents.get(agents.indexOf(a)));
-			return a;
+			return new Agent(agents.get(agents.indexOf(a)));
 		}
 		
 		return null;
@@ -307,7 +295,6 @@ public class Shared {
 	 * 
 	 * @param p - The player to update
 	 * @param ps - The new status for that player
-	 * 
 	 * @throws IllegalArgumentException if an attempt is made to change PlayerStatus to <code>SOLD</code> 
 	 */
 	public synchronized void suspendResumeSale(Player p, PlayerStatus ps) {
@@ -323,7 +310,6 @@ public class Shared {
 	 * 
 	 * @param buyer - The buying Club
 	 * @param p - The Player who is being bought/sold
-	 * 
 	 * @throws InsufficientFundsException if the buying Club does not have enough funds to complete the transaction
 	 */
 	public synchronized void purchasePlayer(Club buyer, Player p) throws InsufficientFundsException {

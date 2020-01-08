@@ -1,23 +1,23 @@
-A11111 Jorge_Mendes jmendes@gmail.com
-A22222 Volker_Struth vstruth@gmail.com
-A33333 Mino_Raiola mraiola@gmail.com
-A44444 Jonathan_Barnett jbarnett@gmail.com
-A55555 Jose_Otin jotin@gmail.com
-A66666 Fernando_Felicevich ffelicevich@gmail.com
-A77777 Giuliano_Bertolucci gbertolucci@gmail.com
-A88888 Thomas_Kroth tkroth@gmail.com
-A99999 Mondial_Promotions mondaial@gmail.com
-A12345 Pini_Zahav pzahavi@gmail.com
-C11111 Liverpool contact@lfc.com 74499000.00
-C22222 Manchester_City contact@mcfc.com 167020320.00
-C44444 Chelsea contact@cfc.com 86145024.00
-C66666 Arsenal contact@afc.com 72484000.00
-C77777 Manchester_United contact@mufc.com 167488480.00
-C01111 Real_Madrid contact@rmfc.com 169610000.00
-C02222 Bayern_Munich contact@bmfc.com 124537000.00
-C03333 FC_Barcelona contact@fcb.com 169074000.00
-C04444 Inter_Milan contact@imfc.com 48190000.00
-C05555 Borussia_Dortmund contact@bdfc 65119000.00
-C06666 PSG contact@psg.com 120404000.00
-C07777 Atletico_Madrid contact@amfc.com 61716000.00
-C08888 Juventus contact@jfc.com 103806000.00
+A 11111 Jorge_Mendes jmendes@gmail.com
+A 22222 Volker_Struth vstruth@gmail.com
+A 33333 Mino_Raiola mraiola@gmail.com
+A 44444 Jonathan_Barnett jbarnett@gmail.com
+A 55555 Jose_Otin jotin@gmail.com
+A 66666 Fernando_Felicevich ffelicevich@gmail.com
+A 77777 Giuliano_Bertolucci gbertolucci@gmail.com
+A 88888 Thomas_Kroth tkroth@gmail.com
+A 99999 Mondial_Promotions mondaial@gmail.com
+A 12345 Pini_Zahav pzahavi@gmail.com
+C 11111 Liverpool contact@lfc.com 74499000.00
+C 22222 Manchester_City contact@mcfc.com 167020320.00
+C 44444 Chelsea contact@cfc.com 86145024.00
+C 66666 Arsenal contact@afc.com 72484000.00
+C 77777 Manchester_United contact@mufc.com 167488480.00
+C 01111 Real_Madrid contact@rmfc.com 169610000.00
+C 02222 Bayern_Munich contact@bmfc.com 124537000.00
+C 03333 FC_Barcelona contact@fcb.com 169074000.00
+C 04444 Inter_Milan contact@imfc.com 48190000.00
+C 05555 Borussia_Dortmund contact@bdfc 65119000.00
+C 06666 PSG contact@psg.com 120404000.00
+C 07777 Atletico_Madrid contact@amfc.com 61716000.00
+C 08888 Juventus contact@jfc.com 103806000.00

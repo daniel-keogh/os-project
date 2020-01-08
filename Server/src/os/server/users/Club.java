@@ -10,8 +10,8 @@ public class Club extends User {
 		funds = c.funds;
 	}
 	
-	public Club(String name, String id, String email, double funds) {
-		super(name, id, email);
+	public Club(String id, String name, String email, double funds) {
+		super(id, name, email);
 		this.funds = funds;
 	}
 	
@@ -27,6 +27,6 @@ public class Club extends User {
 
 	@Override
 	public String toString() {
-		return String.format("%s %.2f", super.toString(), funds);
+		return String.format("C %s %.2f", super.toString(), funds);
 	}
 }

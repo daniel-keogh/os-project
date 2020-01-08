@@ -1,32 +1,22 @@
 package os.server.users;
 
 public abstract class User {
-	private String name;
 	private String id;
+	private String name;
 	private String email;
 	
 	public User() { }
 	
 	public User(User u) {
-		name = u.name;
 		id = u.id;
+		name = u.name;
 		email = u.email;
 	}
 	
-	public User(String name, String id, String email) {
-		this.name = name;
+	public User(String id, String name, String email) {
 		this.id = id;
-		this.email = email;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public User setName(String name) {
 		this.name = name;
-		
-		return this;
+		this.email = email;
 	}
 	
 	public String getId() {
@@ -35,6 +25,16 @@ public abstract class User {
 	
 	public User setId(String id) {
 		this.id = id;
+		
+		return this;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public User setName(String name) {
+		this.name = name;
 		
 		return this;
 	}

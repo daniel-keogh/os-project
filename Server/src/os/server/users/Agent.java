@@ -7,7 +7,12 @@ public class Agent extends User {
 		super(a);
 	}
 	
-	public Agent(String name, String id, String email) {
-		super(name, id, email);
+	public Agent(String id, String name, String email) {
+		super(id, name, email);
+	}
+	
+	@Override
+	public String toString() {
+		return "A "+ super.toString();
 	}
 }
