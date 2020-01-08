@@ -8,16 +8,16 @@ A 77777 Giuliano_Bertolucci gbertolucci@gmail.com
 A 88888 Thomas_Kroth tkroth@gmail.com
 A 99999 Mondial_Promotions mondaial@gmail.com
 A 12345 Pini_Zahav pzahavi@gmail.com
-C 11111 Liverpool contact@lfc.com 74499000.00
-C 22222 Manchester_City contact@mcfc.com 167020320.00
-C 44444 Chelsea contact@cfc.com 86145024.00
-C 66666 Arsenal contact@afc.com 72484000.00
-C 77777 Manchester_United contact@mufc.com 167488480.00
-C 01111 Real_Madrid contact@rmfc.com 169610000.00
-C 02222 Bayern_Munich contact@bmfc.com 124537000.00
-C 03333 FC_Barcelona contact@fcb.com 169074000.00
-C 04444 Inter_Milan contact@imfc.com 48190000.00
-C 05555 Borussia_Dortmund contact@bdfc 65119000.00
-C 06666 PSG contact@psg.com 120404000.00
-C 07777 Atletico_Madrid contact@amfc.com 61716000.00
-C 08888 Juventus contact@jfc.com 103806000.00
+C lfc_123 Liverpool contact@lfc.com 74499000.00
+C mcfc_456 Manchester_City contact@mcfc.com 167020320.00
+C cfc_789 Chelsea contact@cfc.com 86145024.00
+C afc_123 Arsenal contact@afc.com 72484000.00
+C mufc_456 Manchester_United contact@mufc.com 167488480.00
+C rmfc_789 Real_Madrid contact@rmfc.com 169610000.00
+C bmfc_123 Bayern_Munich contact@bmfc.com 124537000.00
+C fcb_456 FC_Barcelona contact@fcb.com 169074000.00
+C imfc_789 Inter_Milan contact@imfc.com 48190000.00
+C bdfc_123 Borussia_Dortmund contact@bdfc 65119000.00
+C psg_456 PSG contact@psg.com 120404000.00
+C amfc_789 Atletico_Madrid contact@amfc.com 61716000.00
+C jfc_123 Juventus contact@jfc.com 103806000.00
