@@ -123,7 +123,7 @@ public class ClubMenu extends Menu {
 			
 			sharedObj.purchasePlayer(usersClub, p);
 			
-			ch.sendMessage(p.getName() +" has been purchased by "+ usersClub.getName() + "\nYour remaining budget is: "+ usersClub.getFunds());
+			ch.sendMessage(String.format("%s has been purchased by %s.\nYour remaining budget is: %.2f", p.getName(), usersClub.getName(), usersClub.getFunds()));
 		} catch (InsufficientFundsException | InvalidIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		}
