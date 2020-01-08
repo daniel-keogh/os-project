@@ -2,7 +2,9 @@ package os.client.menus;
 
 public abstract class Menu {
 	public abstract void show();
-
+	protected abstract void listOptions();
+	protected abstract boolean handleOption(char option);
+	
 	public String[] formatList(String list) {
 		return list.replace("[", "").replace("]", "").split(", ");
 	}

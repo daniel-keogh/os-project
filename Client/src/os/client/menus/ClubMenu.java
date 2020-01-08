@@ -30,7 +30,8 @@ public class ClubMenu extends Menu {
 		} while (cont);
 	}
 	
-	private void listOptions() {
+	@Override
+	protected void listOptions() {
 		System.out.println();
 		System.out.println("====================================================");
 		System.out.println("|                    Club  Menu                    |");
@@ -44,7 +45,8 @@ public class ClubMenu extends Menu {
 		System.out.println("====================================================");
 	}
 	
-	private boolean handleOption(char option) {
+	@Override
+	protected boolean handleOption(char option) {
 		switch (Character.toUpperCase(option)) {
 			case 'A':
 				sendMessage("A");

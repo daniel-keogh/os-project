@@ -129,7 +129,7 @@ public class ClientApp {
 				if (!success) {
 					System.out.println("[Error] "+ receiveMessage());
 				} else {
-					System.out.println(userAction.getAction() + " successful.");
+					System.out.println(userAction + " successful.");
 				}
 			} while (!success);
 			
@@ -143,32 +143,28 @@ public class ClientApp {
 			
 			menu.show();
 			
-			out.close();
-			in.close();
-			connection.close();
 		} catch (IOException e) {
-			System.out.println("Failed to connect to the server.");
+			System.out.println("[Error] Failed to connect to the server.");
 			e.printStackTrace();
+		} finally {
+			try {
+				out.close();
+				in.close();
+				connection.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
-	private enum UserType {
-		CLUB,
-		AGENT
-	}
+	private enum UserType { AGENT, CLUB }
 	
 	private enum UserAction {
-		LOGIN("Login"),
-		REGISTRATION("Registration");
+		LOGIN, REGISTRATION;
 		
-		private String action;
-		
-		UserAction(String action) {
-			this.action = action;
-		}
-		
-		public String getAction() {
-			return action;
+		@Override
+		public String toString() {
+			return super.toString().substring(0, 1) + super.toString().substring(1).toLowerCase();
 		}
 	}
 }

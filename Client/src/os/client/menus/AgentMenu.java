@@ -30,7 +30,8 @@ public class AgentMenu extends Menu {
 		} while (cont);
 	}
 	
-	private void listOptions() {
+	@Override
+	protected void listOptions() {
 		System.out.println();
 		System.out.println("====================================================");
 		System.out.println("|                    Agent Menu                    |");
@@ -43,7 +44,8 @@ public class AgentMenu extends Menu {
 		System.out.println("====================================================");
 	}
 
-	private boolean handleOption(char option) {
+	@Override
+	protected boolean handleOption(char option) {
 		switch (Character.toUpperCase(option)) {
 			case 'A':
 				sendMessage("A");
@@ -160,7 +162,6 @@ public class AgentMenu extends Menu {
 		incomingMsg = (String)receiveMessage();
 
 		System.out.println(getPlayerTableHeading());
-		
 		for (String line : formatList(incomingMsg)) {
 			System.out.println(line);
 		}
