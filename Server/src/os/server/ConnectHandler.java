@@ -132,7 +132,7 @@ public class ConnectHandler implements Runnable {
 								sendMessage(isValidFunds);
 							} catch (NumberFormatException e) {
 								sendMessage(isValidFunds);
-								sendMessage("[Error] Invalid number format. Try again.");
+								sendMessage("Invalid number format. Try again.");
 							}
 						} while (!isValidFunds);
 					}

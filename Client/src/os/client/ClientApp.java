@@ -115,7 +115,7 @@ public class ClientApp {
 							
 							// Get error message if there is one
 							if (!((Boolean) receiveMessage())) {
-								System.out.println((String) receiveMessage());
+								System.out.println("[Error] "+ receiveMessage());
 							} else {
 								break;
 							}
