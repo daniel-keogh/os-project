@@ -130,7 +130,7 @@ public class Shared {
 	 * @throws IllegalArgumentException If the user's ID and/or name is incorrect
 	 */
 	public synchronized void login(User user) {
-		user.setId(user.getId().toUpperCase());
+		user.setId(user.getId());
 		user.setName(user.getName().replaceAll(" ", "_"));
 		
 		List<? extends User> temp = (user instanceof Agent) ? agents : clubs;
