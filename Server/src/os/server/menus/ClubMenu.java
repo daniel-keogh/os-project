@@ -86,12 +86,12 @@ public class ClubMenu extends Menu {
 			Player p = sharedObj.getPlayerFromID(id);
 			
 			if (p == null) {
-				throw new InvalidIdException();
+				throw new UnknownIdException("The entered Player ID does not exist.");
 			}
 
 			// Prevent the user from modifying other clubs players
 			if (!usersClub.getId().equalsIgnoreCase(p.getClubId())) {
-				throw new InvalidIdException(p.getName() +" does not belong to your club");
+				throw new UnknownIdException(p.getName() +" does not play for your club");
 			}
 			
 			// Update status
@@ -100,7 +100,7 @@ public class ClubMenu extends Menu {
 			ch.sendMessage("Updated player status successfully");
 		} catch (IllegalArgumentException e) { 
 			ch.sendMessage("[Error] Invalid status entered");
-		} catch (InvalidIdException e) {
+		} catch (UnknownIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		}
 	}
@@ -113,18 +113,18 @@ public class ClubMenu extends Menu {
 			Player p = sharedObj.getPlayerFromID(id);
 			
 			if (p == null) {
-				throw new InvalidIdException();
+				throw new UnknownIdException("The entered Player ID does not exist.");
 			}
 
 			// Prevent clubs from purchasing their own players.
 			if (p.getClubId().equalsIgnoreCase(usersClub.getId())) {
-				throw new InvalidIdException("You already own "+ p.getName());
+				throw new UnknownIdException("You already own "+ p.getName());
 			}
 			
 			sharedObj.purchasePlayer(usersClub, p);
 			
 			ch.sendMessage(String.format("%s has been purchased by %s.\nYour remaining budget is: %.2f", p.getName(), usersClub.getName(), usersClub.getFunds()));
-		} catch (InsufficientFundsException | InvalidIdException e) {
+		} catch (InsufficientFundsException | UnknownIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		}
 	}

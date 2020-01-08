@@ -68,7 +68,7 @@ public class AgentMenu extends Menu {
 		try {		
 			// Make sure the entered Club ID exists
 			if (sharedObj.getClubFromID(clubId) == null) {
-				throw new InvalidIdException();
+				throw new UnknownIdException("The entered Club ID does not exist.");
 			}
 			
 			p.setName(name)
@@ -83,7 +83,7 @@ public class AgentMenu extends Menu {
 			ch.sendMessage("Player added successfully");
 		} catch (IllegalArgumentException e) {
 			ch.sendMessage("[Error] The server encountered an error trying to add that player. Make sure all details entered are correct.");
-		} catch (InvalidIdException e) {
+		} catch (UnknownIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		}
 	}
@@ -100,12 +100,12 @@ public class AgentMenu extends Menu {
 			
 			// getPlayerFromID will return null if id doesn't exist.
 			if (p == null) {
-				throw new InvalidIdException();
+				throw new UnknownIdException("The entered Player ID does not exist.");
 			}
 
 			// The player's agent ID must match the current user's ID
 			if (!p.getAgentId().equalsIgnoreCase(ch.getCurrentUser().getId())) {
-				throw new InvalidIdException("You do not represent "+ p.getName());
+				throw new UnknownIdException("You do not represent "+ p.getName());
 			}
 			
 			// Update valuation
@@ -114,7 +114,7 @@ public class AgentMenu extends Menu {
 			ch.sendMessage("Valuation updated successfully");
 		} catch (NumberFormatException e) {
 			ch.sendMessage("[Error] Invalid valuation entered");
-		} catch (InvalidIdException e) {
+		} catch (UnknownIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		}
 	}
@@ -130,12 +130,12 @@ public class AgentMenu extends Menu {
 			Player p = sharedObj.getPlayerFromID(id);
 			
 			if (p == null) {
-				throw new InvalidIdException();
+				throw new UnknownIdException("The entered Player ID does not exist.");
 			}
 			
 			// The player's agent ID must match the current user's ID
 			if (!p.getAgentId().equalsIgnoreCase(ch.getCurrentUser().getId())) {
-				throw new InvalidIdException("You do not represent "+ p.getName());
+				throw new UnknownIdException("You do not represent "+ p.getName());
 			}
 			
 			// Update PlayerStatus
@@ -144,7 +144,7 @@ public class AgentMenu extends Menu {
 			ch.sendMessage("Updated "+ p.getName() +"'s status successfully");
 		} catch (IllegalArgumentException e) {
 			ch.sendMessage("[Error] Invalid status entered");
-		} catch (InvalidIdException e) {
+		} catch (UnknownIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		} 
 	}
