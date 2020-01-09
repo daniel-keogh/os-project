@@ -125,7 +125,7 @@ public class ClientApp {
 				
 				success = (Boolean) receiveMessage();
 				
-				// Get appropriate error message if there is one
+				// Get error message if there is one
 				if (!success) {
 					System.out.println("[Error] "+ receiveMessage());
 				} else {

@@ -17,11 +17,11 @@ public class Main {
 			while (true) {
 				System.out.println(String.format("Main thread listening on port %d for incoming new connections...", PORT));
 				
-				Socket newConnection = listener.accept();
+				Socket connection = listener.accept();
 				
 				System.out.println("New connection received and spanning a thread...");
 				
-				Runnable ch = new ConnectHandler(newConnection, clientId, sharedObj);
+				Runnable ch = new ConnectHandler(connection, clientId, sharedObj);
 				Thread t = new Thread(ch);
 				t.start();
 				

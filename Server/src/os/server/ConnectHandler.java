@@ -14,15 +14,15 @@ import os.server.users.User;
 
 public class ConnectHandler implements Runnable {
 	private Shared sharedObj;
-	private Socket individualConn;
+	private Socket connection;
 	private int socketId;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private User currentUser;
 
-	public ConnectHandler(Socket individualConn, int socketId, Shared sharedObj) {
+	public ConnectHandler(Socket connection, int socketId, Shared sharedObj) {
 		this.sharedObj = sharedObj;
-		this.individualConn = individualConn;
+		this.connection = connection;
 		this.socketId = socketId;
 	}
 	
@@ -56,12 +56,12 @@ public class ConnectHandler implements Runnable {
 	@Override
 	public void run() {
 		try {
-			out = new ObjectOutputStream(individualConn.getOutputStream());
+			out = new ObjectOutputStream(connection.getOutputStream());
 			out.flush();
 
-			in = new ObjectInputStream(individualConn.getInputStream());
+			in = new ObjectInputStream(connection.getInputStream());
 
-			System.out.println(String.format("Connection %d from IP address: %s", socketId, individualConn.getInetAddress()));
+			System.out.println(String.format("Connection %d from IP address: %s", socketId, connection.getInetAddress()));
 
 			registerOrLogin();
 			
@@ -83,7 +83,7 @@ public class ConnectHandler implements Runnable {
 			try {
 				out.close();
 				in.close();
-				individualConn.close();
+				connection.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
