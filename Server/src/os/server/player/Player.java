@@ -116,7 +116,7 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return String.format("%-10s  %-10s  %-10s  %-25s  %3d  %12.2f  %-10s  %s", playerId, clubId, agentId, name, age, valuation, position, status);
+		return String.format("%-10s   %-10s  %-10s  %-25s  %3d  %12.2f  %-10s  %s", playerId, clubId, agentId, name, age, valuation, position, status);
 	}
 
 	@Override

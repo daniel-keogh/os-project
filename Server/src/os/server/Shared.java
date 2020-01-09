@@ -221,10 +221,17 @@ public class Shared {
 	 * @param p - The player to add
 	 */
 	public synchronized void addPlayer(Player p) {
-		// Randomly generate player ID
-		int rand = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
+		while (true) {
+			// Randomly generate player ID
+			int rand = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
+			p.setPlayerId("P" + rand);
+			
+			// make sure that ID doesn't already exist
+			if (!players.contains(p))
+				break;
+		}
 		
-		p.setPlayerId("P" + rand).setName(p.getName().replaceAll(" ", "_"));
+		p.setName(p.getName().replaceAll(" ", "_"));
 		players.add(p);
 	}
 	
