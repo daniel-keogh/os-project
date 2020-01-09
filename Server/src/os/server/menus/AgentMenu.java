@@ -22,6 +22,7 @@ public class AgentMenu extends Menu {
 		String option;
 		
 		do {
+			// Get the option that was selected
 			option = ch.receiveMessage();
 			
 			switch (option) {
@@ -129,6 +130,7 @@ public class AgentMenu extends Menu {
 			
 			Player p = sharedObj.getPlayerFromID(id);
 			
+			// getPlayerFromID will return null if id doesn't exist.
 			if (p == null) {
 				throw new UnknownIdException("The entered Player ID does not exist.");
 			}

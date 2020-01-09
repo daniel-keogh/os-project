@@ -53,7 +53,7 @@ public class ClientApp {
 
 			System.out.println("Client Side ready to communicate");
 			
-			// Register / Login
+			// Ask if user wants to Register or Login
 			do {
 				incomingMsg = (String)receiveMessage();
 				System.out.println(incomingMsg);
@@ -87,9 +87,9 @@ public class ClientApp {
 				outgoingMsg = console.next();
 				sendMessage(outgoingMsg);	
 				
-				// Extra steps needed for registration
+				// Extra steps needed for registration...
 				if (userAction == UserAction.REGISTRATION) {
-					// Send email
+					// Send email & make sure its valid
 					incomingMsg = (String)receiveMessage();
 					System.out.println(incomingMsg);
 					
@@ -105,6 +105,7 @@ public class ClientApp {
 					
 					sendMessage(outgoingMsg);
 					
+					// Extra steps needed for registering a club...
 					if (userType == UserType.CLUB) {
 						do {
 							// Send funds

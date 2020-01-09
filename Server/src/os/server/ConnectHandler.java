@@ -119,6 +119,7 @@ public class ConnectHandler implements Runnable {
 					sendMessage("$ Enter email address:");
 					currentUser.setEmail(receiveMessage());
 					
+					// More extra steps needed if the user is a club
 					if (currentUser instanceof Club) {
 						// Get funds
 						boolean isValidFunds = false;
