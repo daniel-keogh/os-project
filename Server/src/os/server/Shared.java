@@ -146,8 +146,6 @@ public class Shared {
 
 	/**
 	 * Registers a new User.
-	 * Agent's IDs must begin with a capital 'A', and Club's IDs must begin with a capital 'C'.
-	 * If not, the appropriate letter will be appended to the ID given.
 	 * 
 	 * @param user - The user to register
 	 * @throws IllegalArgumentException If the User's ID is already registered
