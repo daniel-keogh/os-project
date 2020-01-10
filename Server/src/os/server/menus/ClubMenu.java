@@ -54,7 +54,7 @@ public class ClubMenu extends Menu {
 	private void searchAllByPosition() {
 		List<Player> temp;
 		
-		ch.sendMessage("Search all by position...\n$ Enter position (GOALKEEPER, DEFENDER, MIDFIELDED, ATTACKER): ");
+		ch.sendMessage("Search all by position...\n$ Enter position (GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER): ");
 		
 		try {
 			Position pos = Position.valueOf(ch.receiveMessage().toUpperCase());
@@ -121,7 +121,7 @@ public class ClubMenu extends Menu {
 
 			// Prevent clubs from purchasing their own players.
 			if (p.getClubId().equalsIgnoreCase(usersClub.getId())) {
-				throw new UnknownIdException("You already own "+ p.getName());
+				throw new UnknownIdException(p.getName() +" already plays for your club.");
 			}
 			
 			sharedObj.purchasePlayer(usersClub, p);
