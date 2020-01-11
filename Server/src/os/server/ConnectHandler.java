@@ -67,7 +67,7 @@ public class ConnectHandler implements Runnable {
 			
 			// One logged-in/registered, get the rest of the user's info. and
 			// then pass the current instance of ConnectHandler to the appropriate Menu.
-			Menu menu;
+			Menu menu;	
 			if (currentUser instanceof Agent) {
 				currentUser = sharedObj.getAgentFromID(currentUser.getId());
 				menu = new AgentMenu(this);
@@ -119,7 +119,7 @@ public class ConnectHandler implements Runnable {
 					sendMessage("$ Enter email address:");
 					currentUser.setEmail(receiveMessage());
 					
-					// More extra steps needed if the user is a club
+					// More extra steps needed if the User is a Club
 					if (currentUser instanceof Club) {
 						// Get funds
 						boolean isValidFunds = false;

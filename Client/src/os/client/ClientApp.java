@@ -130,7 +130,7 @@ public class ClientApp {
 				if (!success) {
 					System.out.println("[Error] "+ receiveMessage());
 				} else {
-					System.out.println(userAction + " successful.");
+					System.out.println(userAction +" successful.");
 				}
 			} while (!success);
 			
@@ -165,6 +165,7 @@ public class ClientApp {
 		
 		@Override
 		public String toString() {
+			// Capitalize just the first letter
 			return super.toString().substring(0, 1) + super.toString().substring(1).toLowerCase();
 		}
 	}

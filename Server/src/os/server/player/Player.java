@@ -12,6 +12,7 @@ public class Player {
 	
 	public Player() { }
 
+	// Copy Constructor
 	public Player(Player p) {
 		playerId = p.playerId;
 		clubId = p.clubId;
@@ -117,14 +118,6 @@ public class Player {
 	@Override
 	public String toString() {
 		return String.format("%-12s   %-10s  %-10s  %-25s  %3d  %12.2f  %-10s  %s", playerId, clubId, agentId, name, age, valuation, position, status);
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
-		return result;
 	}
 
 	@Override

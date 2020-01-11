@@ -7,14 +7,17 @@ import os.server.Shared;
 import os.server.player.Player;
 import os.server.player.PlayerStatus;
 import os.server.player.Position;
+import os.server.users.Agent;
 
 public class AgentMenu extends Menu {
 	private ConnectHandler ch;
 	private Shared sharedObj;
+	private Agent user;
 	
 	public AgentMenu(ConnectHandler ch) {
 		this.ch = ch;
 		sharedObj = ch.getSharedObject();
+		user = (Agent) ch.getCurrentUser();
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class AgentMenu extends Menu {
 
 	private void addPlayer() {
 		Player p = new Player();
-		p.setAgentId(ch.getCurrentUser().getId());
+		p.setAgentId(user.getId());
 		
 		ch.sendMessage("Add Player...\n$ Enter player Name: ");
 		String name = ch.receiveMessage();
@@ -69,9 +72,10 @@ public class AgentMenu extends Menu {
 		try {		
 			// Make sure the entered Club ID exists
 			if (sharedObj.getClubFromID(clubId) == null) {
-				throw new UnknownIdException("The entered Club ID does not exist.");
+				throw new InvalidIdException("The entered Club ID does not exist.");
 			}
 			
+			// Try to set all the new player's details (some setters may throw an IllegalArgumentException)
 			p.setName(name)
 				.setAge(Integer.parseInt(age))
 				.setClubId(clubId)
@@ -84,7 +88,7 @@ public class AgentMenu extends Menu {
 			ch.sendMessage("Player added successfully");
 		} catch (IllegalArgumentException e) {
 			ch.sendMessage("[Error] The server encountered an error trying to add that player. Make sure all details entered are correct.");
-		} catch (UnknownIdException e) {
+		} catch (InvalidIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		}
 	}
@@ -101,12 +105,12 @@ public class AgentMenu extends Menu {
 			
 			// getPlayerFromID will return null if id doesn't exist.
 			if (p == null) {
-				throw new UnknownIdException("The entered Player ID does not exist.");
+				throw new InvalidIdException("The entered Player ID does not exist.");
 			}
 
 			// The player's agent ID must match the current user's ID
-			if (!p.getAgentId().equalsIgnoreCase(ch.getCurrentUser().getId())) {
-				throw new UnknownIdException("You do not represent "+ p.getName());
+			if (!p.getAgentId().equalsIgnoreCase(user.getId())) {
+				throw new InvalidIdException("You do not represent "+ p.getName());
 			}
 			
 			// Update valuation
@@ -115,7 +119,7 @@ public class AgentMenu extends Menu {
 			ch.sendMessage("Valuation updated successfully");
 		} catch (NumberFormatException e) {
 			ch.sendMessage("[Error] Invalid valuation entered");
-		} catch (UnknownIdException e) {
+		} catch (InvalidIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		}
 	}
@@ -132,12 +136,12 @@ public class AgentMenu extends Menu {
 			
 			// getPlayerFromID will return null if id doesn't exist.
 			if (p == null) {
-				throw new UnknownIdException("The entered Player ID does not exist.");
+				throw new InvalidIdException("The entered Player ID does not exist.");
 			}
 			
 			// The player's agent ID must match the current user's ID
-			if (!p.getAgentId().equalsIgnoreCase(ch.getCurrentUser().getId())) {
-				throw new UnknownIdException("You do not represent "+ p.getName());
+			if (!p.getAgentId().equalsIgnoreCase(user.getId())) {
+				throw new InvalidIdException("You do not represent "+ p.getName());
 			}
 			
 			// Update PlayerStatus
@@ -146,12 +150,13 @@ public class AgentMenu extends Menu {
 			ch.sendMessage("Updated "+ p.getName() +"'s status successfully");
 		} catch (IllegalArgumentException e) {
 			ch.sendMessage("[Error] Invalid status entered");
-		} catch (UnknownIdException e) {
+		} catch (InvalidIdException e) {
 			ch.sendMessage("[Error] "+ e.getMessage());
 		} 
 	}
 	
 	private void displayAllPlayers() {
+		// Send a List of all the players back to the client.
 		List<Player> temp = sharedObj.getPlayers();
 		
 		if (temp.size() == 0) {
