@@ -277,7 +277,7 @@ public class Shared {
 	}
 	
 	/**
-	 * Returns a list of all players who have a {@link PlayerStatus} of <code>FOR_SALE</code>.
+	 * Returns a list of all players in a given {@link Club} who have a {@link PlayerStatus} of <code>FOR_SALE</code>.
 	 * 
 	 * @param c - The club to search for
 	 * @return The List of players for sale
