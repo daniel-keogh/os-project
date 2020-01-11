@@ -124,6 +124,11 @@ public class ClubMenu extends Menu {
 				throw new InvalidIdException(p.getName() +" already plays for your club.");
 			}
 			
+			// player must be for sale
+			if (p.getStatus() != PlayerStatus.FOR_SALE) {
+				throw new InvalidIdException(p.getName() +" is not for sale.");
+			}
+			
 			sharedObj.purchasePlayer(usersClub, p);
 			
 			ch.sendMessage(String.format("%s has been purchased by %s.\nYour remaining budget is: %.2f", p.getName(), usersClub.getName(), usersClub.getFunds()));
